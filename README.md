@@ -4,8 +4,6 @@
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.x-brightgreen?style=flat-square&logo=springboot)
 ![Maven](https://img.shields.io/badge/Maven-3.9+-blue?style=flat-square&logo=apachemaven)
 ![Swagger](https://img.shields.io/badge/Swagger-OpenAPI-success?style=flat-square&logo=swagger)
-![CI](https://img.shields.io/github/actions/workflow/status/your-org/ecommerce-core/ci.yml?style=flat-square)
-![License](https://img.shields.io/badge/License-MIT-lightgrey?style=flat-square)
 
 > *Projeto de E-commerce desenvolvido com Java e Spring Boot, focado em múltiplos CRUDs, arquitetura limpa, documentação com Swagger e pipeline de CI/CD.*
 
