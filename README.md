@@ -139,11 +139,11 @@ Java 17
 Maven Wrapper
 
 🔄 CI & CD
+```text
 CI – Continuous Integration
 Executado automaticamente em:
 Push para main e develop
 Pull Requests
-
 
 Etapas:
 Build do projeto
@@ -154,3 +154,4 @@ CD – Continuous Delivery
 Deploy automatizado após aprovação
 Suporte a ambientes cloud
 Preparado para Docker e EC2
+```
