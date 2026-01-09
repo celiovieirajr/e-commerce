@@ -87,7 +87,7 @@ Tratamento global de exceções
 
 Padrões REST
 
-
+```text
 ecommerce-core/
 ├─ .github/
 │  └─ workflows/
@@ -108,16 +108,20 @@ ecommerce-core/
 ├─ src/test/java/
 ├─ pom.xml
 └─ README.md
+```
 
 📑 Documentação Swagger
 
 A API é documentada utilizando Swagger / OpenAPI.
 
 Acesso
+```
 http://localhost:8080/swagger-ui.html
+```
 ou
+```
 http://localhost:8080/swagger-ui/index.html
-
+```
 Recursos Documentados
 Endpoints REST
 Métodos HTTP
