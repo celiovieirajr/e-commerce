@@ -63,6 +63,14 @@ public class CustomerService implements ICustomerService{
             model.setAddres(requestDto.getAddres());
         }
 
+        String cpf = cpfUtils.onlyDigits(requestDto.getCpf());
+
+        if (!cpfUtils.isValidCPF(cpf)) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Cpf is not valid.");
+        }
+
+        model.setCpf(cpf);
+
         Customer modelSaved = customerRepository.save(model);
 
         return customerMapper.toResponse(modelSaved);
@@ -79,5 +87,6 @@ public class CustomerService implements ICustomerService{
 
     public void deleteCustomerById(Long id) {
         Customer model = customerRepository.findById(id).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Customer nots exits"));
+        customerRepository.delete(model);
     }
 }
