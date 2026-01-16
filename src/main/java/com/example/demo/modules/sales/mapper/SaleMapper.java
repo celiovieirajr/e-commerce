@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class SaleMapper {
@@ -26,7 +28,6 @@ public class SaleMapper {
 
     public Sale toModel(SaleRequestDto dto) {
         Sale sale = new Sale();
-        sale.setTotalAmount(dto.getTotalAmount());
 
         if (dto.getItens() != null) {
             List<ItemSale> itemSales = dto.getItens().stream().map(
@@ -35,7 +36,29 @@ public class SaleMapper {
 
             itemSales.forEach(item -> item.setSale(sale));
             sale.setItemSale(itemSales);
+
+            BigDecimal totalAmount = itemSales.stream()
+                    .map(item -> {
+                        BigDecimal price = BigDecimal.ZERO;
+                        if (item.getProduct() != null && item.getProduct().getPrice() != null) {
+                            price = item.getProduct().getPrice();
+                        }
+
+                        BigDecimal quantity = BigDecimal.ZERO;
+                        if (item.getQuantity() != null) {
+                            quantity = new BigDecimal(item.getQuantity());
+                        }
+
+                        return price.multiply(quantity);
+                    })
+                    .filter(Objects::nonNull)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+            sale.setTotalAmount(totalAmount);
+        } else {
+            sale.setTotalAmount(BigDecimal.ZERO);
         }
+
 
         if (dto.getIdCustomer() != null) {
             Customer customer = customerRepository.findById(dto.getIdCustomer()).orElseThrow(

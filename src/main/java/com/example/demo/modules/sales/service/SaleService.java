@@ -64,36 +64,34 @@ public class SaleService implements ISaleService{
 
         Customer customer = customerRepository.findById(dto.getIdCustomer())
                 .orElseThrow(() -> new ApiException(NOT_FOUND, "Customer nots exits"));
-        sale.setCustomer(customer); // Customer
+        sale.setCustomer(customer);
 
-        if (sale.getItemSale() == null) { // itemSaleIsNull
-            throw new ApiException(BAD_REQUEST, "Depedences itensSales nots exits");
+        if (sale.getItemSale() == null) {
+            throw new ApiException(BAD_REQUEST, "Depedency itensSales nots exits");
         }
 
-        if (sale.getItemSale() != null) {
-            sale.getItemSale().clear();
+        sale.getItemSale().clear();
 
-            for (var itemDto : dto.getItens()) {
-                ItemSale itemSale = new ItemSale();
+        for (var itemDto : dto.getItens()) {
+            ItemSale itemSale = new ItemSale();
 
-                List<ItemSale> listItens = sale.getItemSale();
+            List<ItemSale> listItens = sale.getItemSale();
 
-                Product product = productRepository.findById(itemDto.getProductId()).orElseThrow(
-                        () -> new ApiException(NOT_FOUND, "Product nots exits"));
-                itemSale.setProduct(product); // setando produto
+            Product product = productRepository.findById(itemDto.getProductId()).orElseThrow(
+                    () -> new ApiException(NOT_FOUND, "Product nots exits"));
+            itemSale.setProduct(product);
 
-                int quantity = itemDto.getQuantity();
-                BigDecimal amount = product.getPrice();
+            int quantity = itemDto.getQuantity();
+            BigDecimal amount = product.getPrice();
 
-                itemSale.setQuantity(quantity); // setando quantidade
-                itemSale.setAmount(amount); // setando preço unitário do produto
+            itemSale.setQuantity(quantity);
+            itemSale.setAmount(amount);
 
-                BigDecimal totalAmount = amount.multiply(BigDecimal.valueOf(quantity));
-                itemSale.setTotalAmount(totalAmount);  // setando total
+            BigDecimal totalAmount = amount.multiply(BigDecimal.valueOf(quantity));
+            itemSale.setTotalAmount(totalAmount);
 
-                itemSale.setSale(sale);
-                listItens.add(itemSale);
-            }
+            itemSale.setSale(sale);
+            listItens.add(itemSale);
         }
 
         BigDecimal total = sale.getItemSale() == null

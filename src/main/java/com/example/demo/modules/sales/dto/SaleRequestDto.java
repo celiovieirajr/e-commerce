@@ -11,7 +11,6 @@ import java.util.List;
 
 public class SaleRequestDto {
     private Long idCustomer;
-    private BigDecimal totalAmount;
     private List<ItemSaleRequestDto> itens;
 }
 
