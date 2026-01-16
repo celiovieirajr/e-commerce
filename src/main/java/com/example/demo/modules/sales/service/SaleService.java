@@ -19,7 +19,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
@@ -65,30 +67,43 @@ public class SaleService implements ISaleService{
         sale.setCustomer(customer); // Customer
 
         if (sale.getItemSale() == null) { // itemSaleIsNull
-            sale.setItemSale(new ArrayList<>());
+            throw new ApiException(BAD_REQUEST, "Depedences itensSales nots exits");
         }
 
-        for (var itemDto : dto.getItens()) {
-            ItemSale itemSale = new ItemSale();
-
+        if (sale.getItemSale() != null) {
             sale.getItemSale().clear();
 
-            Product product = productRepository.findById(itemDto.getProductId()).orElseThrow(
-                    () -> new ApiException(NOT_FOUND, "Product nots exits"));
-            itemSale.setProduct(product); // setando produto
+            for (var itemDto : dto.getItens()) {
+                ItemSale itemSale = new ItemSale();
 
-            int quantity = itemDto.getQuantity();
-            BigDecimal amount = product.getPrice();
+                List<ItemSale> listItens = sale.getItemSale();
 
-            itemSale.setQuantity(quantity); // setando quantidade
-            itemSale.setAmount(amount); // setando preço unitário do produto
+                Product product = productRepository.findById(itemDto.getProductId()).orElseThrow(
+                        () -> new ApiException(NOT_FOUND, "Product nots exits"));
+                itemSale.setProduct(product); // setando produto
 
-            BigDecimal totalAmount = amount.multiply(BigDecimal.valueOf(quantity));
-            itemSale.setTotalAmount(totalAmount);  // setando total
+                int quantity = itemDto.getQuantity();
+                BigDecimal amount = product.getPrice();
 
-            itemSale.setSale(sale);
-            sale.getItemSale().add(itemSale);
+                itemSale.setQuantity(quantity); // setando quantidade
+                itemSale.setAmount(amount); // setando preço unitário do produto
+
+                BigDecimal totalAmount = amount.multiply(BigDecimal.valueOf(quantity));
+                itemSale.setTotalAmount(totalAmount);  // setando total
+
+                itemSale.setSale(sale);
+                listItens.add(itemSale);
+            }
         }
+
+        BigDecimal total = sale.getItemSale() == null
+                ? BigDecimal.ZERO
+                : sale.getItemSale().stream()
+                .map(ItemSale::getTotalAmount)
+                .filter(Objects::nonNull)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        sale.setTotalAmount(total);
 
         Sale saved = saleRepository.save(sale);
         return saleMapper.toResponse(saved);

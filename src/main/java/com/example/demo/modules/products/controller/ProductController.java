@@ -4,6 +4,7 @@ import com.example.demo.modules.products.dto.ProductRequestDto;
 import com.example.demo.modules.products.dto.ProductResponseDto;
 import com.example.demo.modules.products.service.IProductService;
 import com.example.demo.modules.products.service.ProductService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +22,8 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ProductResponseDto> insertProductController(@RequestBody ProductRequestDto requestDto) {
-        service.insertProduct(requestDto);
-        return ResponseEntity.noContent().build();
+        ProductResponseDto response = service.insertProduct(requestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{id}")
