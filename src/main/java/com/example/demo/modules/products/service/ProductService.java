@@ -1,5 +1,6 @@
 package com.example.demo.modules.products.service;
 
+import com.example.demo.exception.ApiException;
 import com.example.demo.modules.products.dto.ProductRequestDto;
 import com.example.demo.modules.products.dto.ProductResponseDto;
 import com.example.demo.modules.products.mapper.ProductMapper;
@@ -12,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
-public class ProductService {
+public class ProductService implements IProductService {
 
     private final ProductRepository repository;
     private final ProductMapper mapper;
@@ -24,15 +25,22 @@ public class ProductService {
 
     public ProductResponseDto insertProduct(ProductRequestDto requestDto) {
         Product model = mapper.toModel(requestDto);
+
+        if (repository.existsByCodProductAndIdNot(model.getCodProduct(), model.getId())) {
+            throw new ApiException(HttpStatus.CONFLICT, "Product code already exists.");
+        }
+
         Product modelSaved = repository.save(model);
 
         return mapper.toResponse(modelSaved);
     }
 
+
     public ProductResponseDto updateProduct(Long id, ProductRequestDto requestDto) {
         Product model = repository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product nots exits."));
+                () -> new ApiException(HttpStatus.NOT_FOUND, "Product not found"));
 
+        model.setCodProduct(requestDto.getCodProduct());
         model.setDescription(requestDto.getDescription());
         model.setPrice(requestDto.getPrice());
 
@@ -42,8 +50,9 @@ public class ProductService {
     }
 
     public ProductResponseDto findProductById(Long id) {
-        return repository.findById(id).map(mapper::toResponse).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product nots exits."));
+        return repository.findById(id)
+                .map(mapper::toResponse)
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND ,"Product not found."));
     }
 
     public List<ProductResponseDto> findAllProduct() {

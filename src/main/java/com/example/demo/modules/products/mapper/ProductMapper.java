@@ -10,6 +10,7 @@ public class ProductMapper {
 
     public Product toModel(ProductRequestDto requestDto) {
         Product model = new Product();
+        model.setCodProduct(requestDto.getCodProduct());
         model.setDescription(requestDto.getDescription());
         model.setPrice(requestDto.getPrice());
 
@@ -19,6 +20,7 @@ public class ProductMapper {
     public ProductResponseDto toResponse(Product product) {
         ProductResponseDto responseDto = new ProductResponseDto();
         responseDto.setId(product.getId());
+        responseDto.setCodProduct(product.getCodProduct());
         responseDto.setDescription(product.getDescription());
         responseDto.setPrice(product.getPrice());
 

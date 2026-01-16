@@ -12,6 +12,7 @@ public class CustomerMapper {
     public Customer toModel(CustomerRequestDto requestDto) {
         Customer model = new Customer();
         model.setName(requestDto.getName());
+        model.setCpf(requestDto.getCpf());
 
         if (requestDto.getAddres() != null) {
             Viacep viacep = new Viacep();
@@ -36,6 +37,7 @@ public class CustomerMapper {
         CustomerResponseDto responseDto = new CustomerResponseDto();
         responseDto.setId(model.getId());
         responseDto.setName(model.getName());
+        responseDto.setCpf(model.getCpf());
 
         if (model.getAddres() != null) {
             responseDto.setAddres(model.getAddres());
