@@ -8,6 +8,7 @@ import lombok.Data;
 public class CustomerRequestDto {
 
     private String name;
+    private String cpf;
 
     @Embedded
     private Viacep addres;

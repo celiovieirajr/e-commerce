@@ -2,6 +2,7 @@ package com.example.demo.modules.products.controller;
 
 import com.example.demo.modules.products.dto.ProductRequestDto;
 import com.example.demo.modules.products.dto.ProductResponseDto;
+import com.example.demo.modules.products.service.IProductService;
 import com.example.demo.modules.products.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController {
 
-    private final ProductService service;
+    private final IProductService service;
 
     public ProductController(ProductService service) {
         this.service = service;

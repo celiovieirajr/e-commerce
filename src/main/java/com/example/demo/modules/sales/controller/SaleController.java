@@ -2,6 +2,7 @@ package com.example.demo.modules.sales.controller;
 
 import com.example.demo.modules.sales.dto.SaleRequestDto;
 import com.example.demo.modules.sales.dto.SaleResponseDto;
+import com.example.demo.modules.sales.service.ISaleService;
 import com.example.demo.modules.sales.service.SaleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import java.util.List;
 @RequestMapping("/sale")
 public class SaleController {
 
-    private final SaleService saleService;
+    private final ISaleService saleService;
 
     public SaleController(SaleService saleService) {
         this.saleService = saleService;

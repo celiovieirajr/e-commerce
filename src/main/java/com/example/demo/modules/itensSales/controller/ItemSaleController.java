@@ -3,12 +3,10 @@ package com.example.demo.modules.itensSales.controller;
 import com.example.demo.modules.itensSales.dto.ItemSaleRequestDto;
 import com.example.demo.modules.itensSales.dto.ItemSaleResponseDto;
 import com.example.demo.modules.itensSales.service.ItemSaleService;
-import jakarta.persistence.Lob;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController @RequestMapping("/itemSale")

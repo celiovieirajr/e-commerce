@@ -1,5 +1,6 @@
 package com.example.demo.modules.viaceps.controller;
 
+import com.example.demo.modules.viaceps.dto.ViacepResponseDto;
 import com.example.demo.modules.viaceps.model.Viacep;
 import com.example.demo.modules.viaceps.service.ViacepService;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,8 @@ public class ViacepController {
     }
 
     @GetMapping("/{cep}")
-    public ResponseEntity<Viacep> getAddressByCepController(@PathVariable String cep) {
-        Viacep model = viacepService.getAddressByCep(cep);
-        return ResponseEntity.ok().body(model);
+    public ResponseEntity<ViacepResponseDto> getAddressByCepController(@PathVariable String cep) {
+        ViacepResponseDto viacepResponseDto = viacepService.getAddressByCep(cep);
+        return ResponseEntity.ok().body(viacepResponseDto);
     }
 }

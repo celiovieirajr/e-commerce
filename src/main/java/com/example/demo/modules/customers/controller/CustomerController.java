@@ -3,6 +3,7 @@ package com.example.demo.modules.customers.controller;
 import com.example.demo.modules.customers.dto.CustomerRequestDto;
 import com.example.demo.modules.customers.dto.CustomerResponseDto;
 import com.example.demo.modules.customers.service.CustomerService;
+import com.example.demo.modules.customers.service.ICustomerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +12,7 @@ import java.util.List;
 @RestController @RequestMapping("/customer")
 public class CustomerController {
 
-    private final CustomerService customerService;
+    public ICustomerService customerService;
 
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
@@ -38,5 +39,11 @@ public class CustomerController {
     @GetMapping
     public ResponseEntity<List<CustomerResponseDto>> findAllCustomerController() {
         return ResponseEntity.ok(customerService.findAllCustomer());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCustomerByIdController(@PathVariable Long id) {
+        customerService.deleteCustomerById(id);
+        return ResponseEntity.noContent().build();
     }
 }

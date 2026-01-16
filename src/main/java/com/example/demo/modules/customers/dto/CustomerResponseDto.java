@@ -9,6 +9,7 @@ public class CustomerResponseDto {
 
     private long id;
     private String name;
+    private String cpf;
 
     @Embedded
     private Viacep addres;

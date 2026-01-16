@@ -1,9 +1,11 @@
 package com.example.demo.modules.sales.service;
 
+import com.example.demo.exception.ApiException;
 import com.example.demo.modules.customers.model.Customer;
 import com.example.demo.modules.customers.repository.CustomerRepository;
 import com.example.demo.modules.itensSales.model.ItemSale;
 import com.example.demo.modules.itensSales.repository.ItemSaleRepository;
+import com.example.demo.modules.products.model.Product;
 import com.example.demo.modules.products.repository.ProductRepository;
 import com.example.demo.modules.sales.dto.SaleRequestDto;
 import com.example.demo.modules.sales.dto.SaleResponseDto;
@@ -15,11 +17,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
-public class SaleService {
+public class SaleService implements ISaleService{
 
     private final SaleRepository saleRepository;
     private final CustomerRepository customerRepository;
@@ -44,7 +48,7 @@ public class SaleService {
 
     public SaleResponseDto findSaleById(Long id) {
         return saleRepository.findById(id).map(saleMapper::toResponse).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sale: " + id + " nots exits"));
+                () -> new ResponseStatusException(NOT_FOUND, "Sale: " + id + " nots exits"));
     }
 
     public List<SaleResponseDto> findAllSale() {
@@ -52,46 +56,47 @@ public class SaleService {
     }
 
 
-    public SaleResponseDto updatedSale(Long id, SaleRequestDto saleRequestDto) {
-        Sale model = saleRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sale: " + id + " not found"));
+    public SaleResponseDto updatedSale(Long idVenda, SaleRequestDto dto) {
+        Sale sale = saleRepository.findById(idVenda)
+                .orElseThrow(() -> new ApiException(NOT_FOUND, "Sale nots exits"));
 
-        Customer customer = customerRepository.findById(saleRequestDto.getIdCustomer()).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer " + saleRequestDto.getIdCustomer() + " not found"));
-        model.setCustomer(customer);
+        Customer customer = customerRepository.findById(dto.getIdCustomer())
+                .orElseThrow(() -> new ApiException(NOT_FOUND, "Customer nots exits"));
+        sale.setCustomer(customer); // Customer
 
-        List<ItemSale> itemSales = saleRequestDto.getItens().stream().map(itemDto -> {
-            ItemSale item = new ItemSale();
-
-            item.setProduct(productRepository.findById(itemDto.getProductId()).orElseThrow(
-                    () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product " + itemDto.getProductId() + " not found")));
-            item.setQuantity(itemDto.getQuantity());
-            item.setAmount(itemDto.getAmount());
-
-            BigDecimal totalItem = itemDto.getAmount().multiply(BigDecimal.valueOf(itemDto.getQuantity()));
-            item.setTotalAmount(totalItem);
-
-            item.setSale(model);
-            return item;
-        }).collect(Collectors.toList());
-
-        model.setItemSale(itemSales);
-
-        BigDecimal totalSale = BigDecimal.ZERO;
-
-        for (ItemSale item: itemSales) {
-            totalSale = totalSale.add(item.getAmount());
+        if (sale.getItemSale() == null) { // itemSaleIsNull
+            sale.setItemSale(new ArrayList<>());
         }
 
-        model.setTotalAmount(totalSale);
+        for (var itemDto : dto.getItens()) {
+            ItemSale itemSale = new ItemSale();
 
-        Sale response = saleRepository.save(model);
-        return saleMapper.toResponse(response);
+            sale.getItemSale().clear();
+
+            Product product = productRepository.findById(itemDto.getProductId()).orElseThrow(
+                    () -> new ApiException(NOT_FOUND, "Product nots exits"));
+            itemSale.setProduct(product); // setando produto
+
+            int quantity = itemDto.getQuantity();
+            BigDecimal amount = product.getPrice();
+
+            itemSale.setQuantity(quantity); // setando quantidade
+            itemSale.setAmount(amount); // setando preço unitário do produto
+
+            BigDecimal totalAmount = amount.multiply(BigDecimal.valueOf(quantity));
+            itemSale.setTotalAmount(totalAmount);  // setando total
+
+            itemSale.setSale(sale);
+            sale.getItemSale().add(itemSale);
+        }
+
+        Sale saved = saleRepository.save(sale);
+        return saleMapper.toResponse(saved);
     }
 
     public void deleteSaleById(Long id) {
         saleRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sale " + id + " nots exits"));
+                () -> new ResponseStatusException(NOT_FOUND, "Sale " + id + " nots exits"));
     }
 
 }

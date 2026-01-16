@@ -27,6 +27,7 @@ public class ItemSaleService {
     }
 
     public ItemSaleResponseDto insertItemSaleService(ItemSaleRequestDto itemSaleRequestDto, Long idProduct) {
+
         ItemSale itemSale = itemSaleMapper.toModel(itemSaleRequestDto, idProduct);
         ItemSale itemSaleSaved = itemSaleRepository.save(itemSale);
 
@@ -46,9 +47,7 @@ public class ItemSaleService {
         ItemSale model = itemSaleRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ItemSales nots exits"));
 
-        model.setAmount(itemSaleRequestDto.getAmount());
         model.setQuantity(itemSaleRequestDto.getQuantity());
-        model.setTotalAmount(itemSaleRequestDto.getTotalAmount());
 
         if (model.getProduct() != null) {
             Product product = productRepository.findById(itemSaleRequestDto.getProductId()).orElseThrow(
