@@ -18,10 +18,10 @@ public class ItemSaleController {
         this.itemSaleService = itemSaleService;
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/{idSale}")
     public ResponseEntity<ItemSaleResponseDto> insertItemSaleController(@RequestBody ItemSaleRequestDto itemSaleRequestDto,
-                                                                        @PathVariable Long id) {
-        ItemSaleResponseDto responseDto = itemSaleService.insertItemSaleService(itemSaleRequestDto, id);
+                                                                        @PathVariable Long idSale) {
+        ItemSaleResponseDto responseDto = itemSaleService.insertItemSaleService(itemSaleRequestDto, idSale);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
