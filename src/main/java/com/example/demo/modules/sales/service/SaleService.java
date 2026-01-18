@@ -43,6 +43,7 @@ public class SaleService implements ISaleService{
 
     public SaleResponseDto insertSale(SaleRequestDto saleRequestDto) {
         Sale model = saleMapper.toModel(saleRequestDto);
+        recalculateTotalAmount(model);
         Sale modelSaved = saleRepository.save(model);
 
         return saleMapper.toResponse(modelSaved);
@@ -94,14 +95,7 @@ public class SaleService implements ISaleService{
             listItens.add(itemSale);
         }
 
-        BigDecimal total = sale.getItemSale() == null
-                ? BigDecimal.ZERO
-                : sale.getItemSale().stream()
-                .map(ItemSale::getTotalAmount)
-                .filter(Objects::nonNull)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        sale.setTotalAmount(total);
+        recalculateTotalAmount(sale);
 
         Sale saved = saleRepository.save(sale);
         return saleMapper.toResponse(saved);
@@ -110,6 +104,17 @@ public class SaleService implements ISaleService{
     public void deleteSaleById(Long id) {
         saleRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(NOT_FOUND, "Sale " + id + " nots exits"));
+    }
+
+    public void recalculateTotalAmount (Sale sale) {
+        BigDecimal total = sale.getItemSale() == null
+                ? BigDecimal.ZERO
+                : sale.getItemSale().stream()
+                .map(ItemSale::getTotalAmount)
+                .filter(Objects::nonNull)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        sale.setTotalAmount(total);
     }
 
 }

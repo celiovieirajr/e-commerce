@@ -29,43 +29,19 @@ public class SaleMapper {
     public Sale toModel(SaleRequestDto dto) {
         Sale sale = new Sale();
 
-        if (dto.getItens() != null) {
-            List<ItemSale> itemSales = dto.getItens().stream().map(
-                    itemDto -> itemSaleMapper.toModel(itemDto, itemDto.getProductId()))
-                    .toList();
+        List<ItemSale> itemSales = dto.getItens().stream()
+                .map(itemDto -> itemSaleMapper.toModel(itemDto, sale, itemDto.getProductId()))
+                .toList();
 
-            itemSales.forEach(item -> item.setSale(sale));
-            sale.setItemSale(itemSales);
+        itemSales.forEach(item -> item.setSale(sale));
+        sale.setItemSale(itemSales);
 
-            BigDecimal totalAmount = itemSales.stream()
-                    .map(item -> {
-                        BigDecimal price = BigDecimal.ZERO;
-                        if (item.getProduct() != null && item.getProduct().getPrice() != null) {
-                            price = item.getProduct().getPrice();
-                        }
-
-                        BigDecimal quantity = BigDecimal.ZERO;
-                        if (item.getQuantity() != null) {
-                            quantity = new BigDecimal(item.getQuantity());
-                        }
-
-                        return price.multiply(quantity);
-                    })
-                    .filter(Objects::nonNull)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-            sale.setTotalAmount(totalAmount);
-        } else {
-            sale.setTotalAmount(BigDecimal.ZERO);
-        }
+        sale.setTotalAmount(BigDecimal.valueOf(0));
 
 
-        if (dto.getIdCustomer() != null) {
-            Customer customer = customerRepository.findById(dto.getIdCustomer()).orElseThrow(
-                    () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer nots exits"));
-
-            sale.setCustomer(customer);
-        }
+        Customer customer = customerRepository.findById(dto.getIdCustomer()).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer nots exits"));
+        sale.setCustomer(customer);
 
         return sale;
     }
@@ -73,18 +49,13 @@ public class SaleMapper {
     public SaleResponseDto toResponse(Sale sale) {
         SaleResponseDto saleResponseDto = new SaleResponseDto();
         saleResponseDto.setId(sale.getId());
+        saleResponseDto.setIdCustomer(sale.getCustomer().getId());
 
-        if (sale.getCustomer() != null) {
-            saleResponseDto.setIdCustomer(sale.getCustomer().getId());
-        }
-
-        if (sale.getItemSale() != null) {
-            saleResponseDto.setItens(
-                    sale.getItemSale().stream()
-                            .map(itemSaleMapper::toResponse)
-                            .toList()
-            );
-        }
+        saleResponseDto.setItens(
+                sale.getItemSale().stream()
+                        .map(itemSaleMapper::toResponse)
+                        .toList()
+        );
 
         saleResponseDto.setTotalAmount(sale.getTotalAmount());
 

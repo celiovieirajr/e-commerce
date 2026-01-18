@@ -1,5 +1,6 @@
 package com.example.demo.modules.itensSales.service;
 
+import com.example.demo.exception.ApiException;
 import com.example.demo.modules.itensSales.dto.ItemSaleRequestDto;
 import com.example.demo.modules.itensSales.dto.ItemSaleResponseDto;
 import com.example.demo.modules.itensSales.mapper.ItemSaleMapper;
@@ -7,6 +8,9 @@ import com.example.demo.modules.itensSales.model.ItemSale;
 import com.example.demo.modules.itensSales.repository.ItemSaleRepository;
 import com.example.demo.modules.products.model.Product;
 import com.example.demo.modules.products.repository.ProductRepository;
+import com.example.demo.modules.sales.model.Sale;
+import com.example.demo.modules.sales.repository.SaleRepository;
+import com.example.demo.modules.sales.service.SaleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,17 +23,29 @@ public class ItemSaleService {
     private final ProductRepository productRepository;
     private final ItemSaleRepository itemSaleRepository;
     private final ItemSaleMapper itemSaleMapper;
+    private final SaleService saleService;
+    private final SaleRepository saleRepository;
 
-    public ItemSaleService(ItemSaleRepository itemSaleRepository, ItemSaleMapper itemSaleMapper, ProductRepository productRepository) {
+    public ItemSaleService(ItemSaleRepository itemSaleRepository, ItemSaleMapper itemSaleMapper, ProductRepository productRepository, SaleService saleService, SaleRepository saleRepository) {
         this.itemSaleRepository = itemSaleRepository;
         this.itemSaleMapper = itemSaleMapper;
         this.productRepository = productRepository;
+        this.saleService = saleService;
+        this.saleRepository = saleRepository;
     }
 
-    public ItemSaleResponseDto insertItemSaleService(ItemSaleRequestDto itemSaleRequestDto, Long idProduct) {
+    public ItemSaleResponseDto insertItemSaleService(ItemSaleRequestDto itemSaleRequestDto, Long idSale) {
 
-        ItemSale itemSale = itemSaleMapper.toModel(itemSaleRequestDto, idProduct);
+        ItemSale itemSale = itemSaleMapper.toModel(itemSaleRequestDto, idSale);
         ItemSale itemSaleSaved = itemSaleRepository.save(itemSale);
+
+        if (idSale != null) {
+            Sale sale = saleRepository.findById(idSale).orElseThrow(
+                    () -> new ApiException(HttpStatus.NOT_FOUND, "Sale nots exits"));
+
+            saleService.recalculateTotalAmount(sale);
+            saleRepository.save(sale);
+        }
 
         return itemSaleMapper.toResponse(itemSaleSaved);
     }
