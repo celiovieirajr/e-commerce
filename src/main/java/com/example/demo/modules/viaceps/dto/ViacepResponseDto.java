@@ -1,8 +1,19 @@
 package com.example.demo.modules.viaceps.dto;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 
 @Data
+@JsonPropertyOrder({"cep",
+                    "logradouro",
+                    "complemento",
+                    "bairro",
+                    "localidade",
+                    "uf",
+                    "estado",
+                    "regiao",
+                    "ibge",
+                    "unidade"})
 public class ViacepResponseDto {
 
     private String cep;
