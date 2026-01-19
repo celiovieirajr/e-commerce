@@ -14,10 +14,10 @@
 O **E-Commerce Core API** é um projeto backend que simula o núcleo de um sistema de vendas online, abordando cenários reais do mercado como:
 
 - Cadastro e gerenciamento de produtos
-- Organização por categorias
-- Gestão de clientes
-- Fluxo de pedidos
-- Itens de pedido
+- Cadastro e gerenciamento de vendas
+- Cadastro e gerenciamneto de itensVendas
+- Cadastro e gerenciamento de clientes
+- Consulta de cep através do consumo da API VIACEP
 - Evolução contínua com boas práticas
 
 O projeto foi pensado para **aprendizado, portfólio e base para projetos maiores**.
@@ -48,7 +48,7 @@ O projeto foi pensado para **aprendizado, portfólio e base para projetos maiore
 | Framework | Spring Boot 3.3.x |
 | API | Spring Web (REST) |
 | Persistência | Spring Data JPA |
-| Banco de Dados | H2 (dev) / PostgreSQL (prod) |
+| Banco de Dados | H2 (dev) |
 | Documentação | Springdoc OpenAPI |
 | Build | Maven |
 | CI/CD | GitHub Actions |
@@ -69,10 +69,9 @@ flowchart TD
 CRUDs Implementados
 Entidade	Descrição
 Product	Produtos disponíveis para venda
-Category	Categorias dos produtos
 Customer	Dados do cliente
-Order	Pedido realizado
-OrderItem	Itens do pedido
+Sale	Pedido realizado
+ItemSale	Itens do pedido
 Funcionalidades Gerais
 
 CRUD completo
@@ -95,7 +94,7 @@ ecommerce-core/
 │  ├─ controller/
 │  ├─ service/
 │  ├─ repository/
-│  ├─ domain/
+│  ├─ model/
 │  ├─ dto/
 │  ├─ mapper/
 │  └─ config/
@@ -114,11 +113,11 @@ A API é documentada utilizando Swagger / OpenAPI.
 
 Acesso
 ```
-http://localhost:8080/swagger-ui.html
+http://localhost:3000/swagger-ui.html
 ```
 ou
 ```
-http://localhost:8080/swagger-ui/index.html
+http://localhost:3000/swagger-ui/index.html
 ```
 Recursos Documentados
 Endpoints REST
@@ -129,7 +128,7 @@ Exemplos de request/response
 Códigos de status HTTP
 
 OpenAPI JSON
-http://localhost:8080/v3/api-docs
+http://localhost:3000/v3/api-docs
 
 Pré-requisitos
 
