@@ -4,7 +4,7 @@ import com.example.demo.modules.viaceps.model.Viacep;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Entity @Table(name = "customer")
+@Entity @Table(name = "customers")
 @Data
 public class Customer {
 

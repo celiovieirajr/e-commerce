@@ -32,7 +32,7 @@ public class ItemSaleMapper {
 
     public ItemSale toModel(ItemSaleRequestDto itemSaleRequestDto, Long idSale) {
         Product product = productRepository.findById(itemSaleRequestDto.getProductId()).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Products nots exits"));
+                () -> new ApiException(HttpStatus.NOT_FOUND, "Products nots exits"));
 
         int quantity = itemSaleRequestDto.getQuantity();
 

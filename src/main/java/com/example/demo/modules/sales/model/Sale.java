@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Table(name = "sale")
+@Table(name = "sales")
 @Data
 public class Sale {
 
