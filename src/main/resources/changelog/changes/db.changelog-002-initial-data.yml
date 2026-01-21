@@ -5,7 +5,7 @@ databaseChangeLog:
       preConditions:
         onFail: MARK_RAN
         onError: HALT
-        all:
+        preConditions:
           - tableExists:
               tableName: customers
           - sqlCheck:
