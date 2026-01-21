@@ -1,0 +1,27 @@
+  databaseChangeLog:
+    - changeSet:
+        id: 003-create-sales
+        author: celio
+        changes:
+          - createTable:
+              tableName: sales
+              columns:
+                - column:
+                    name: id
+                    type: BIGINT
+                    autoIncrement: true
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: customer_id
+                    type: BIGINT
+                - column:
+                    name: totalAmount
+                    type: NUMERIC(38,2)
+          - addForeignKeyConstraint:
+              baseTableName: sales
+              baseColumnNames: customer_id
+              referencedTableName: customers
+              referencedColumnNames: id
+              constraintName: fk_sales_customers
