@@ -24,181 +24,33 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     unique: true
-
-  - changeSet:
-      id: 002-create-products
-      author: celio
-      changes:
-        - createTable:
-            tableName: products
-            columns:
-              - column:
-                  name: id
-                  type: BIGINT
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: cod_product
-                  type: VARCHAR(50)
-                  constraints:
-                    nullable: false
-                    unique: true
-              - column:
-                  name: description
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: price
-                  type: DECIMAL(15,2)
-                  constraints:
-                    nullable: false
-
-  - changeSet:
-      id: 003-create-sales
-      author: celio
-      changes:
-        - createTable:
-            tableName: sales
-            columns:
-              - column:
-                  name: id
-                  type: BIGINT
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: customer_id
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-              - column:
-                  name: sale_date
-                  type: TIMESTAMP
-                  defaultValueComputed: CURRENT_TIMESTAMP
-                  constraints:
-                    nullable: false
-              - column:
-                  name: total_amount
-                  type: DECIMAL(15,2)
-                  constraints:
-                    nullable: false
-        - addForeignKeyConstraint:
-            baseTableName: sales
-            baseColumnNames: customer_id
-            constraintName: fk_sales_customer
-            referencedTableName: customers
-            referencedColumnNames: id
-
-  - changeSet:
-      id: 004-create-item-sales
-      author: celio
-      changes:
-        - createTable:
-            tableName: item_sales
-            columns:
-              - column:
-                  name: id
-                  type: BIGINT
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: sale_id
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-              - column:
-                  name: product_id
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-              - column:
-                  name: quantity
-                  type: INT
-                  constraints:
-                    nullable: false
-              - column:
-                  name: amount
-                  type: DECIMAL(15,2)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: total_amount
-                  type: DECIMAL(15,2)
-                  constraints:
-                    nullable: false
-        - addForeignKeyConstraint:
-            baseTableName: item_sales
-            baseColumnNames: sale_id
-            constraintName: fk_item_sales_sale
-            referencedTableName: sales
-            referencedColumnNames: id
-        - addForeignKeyConstraint:
-            baseTableName: item_sales
-            baseColumnNames: product_id
-            constraintName: fk_item_sales_product
-            referencedTableName: products
-            referencedColumnNames: id
-
-  - changeSet:
-      id: 005-create-addresses
-      author: celio
-      changes:
-        - createTable:
-            tableName: addresses
-            columns:
-              - column:
-                  name: id
-                  type: BIGINT
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: customer_id
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-              - column:
-                  name: cep
-                  type: VARCHAR(9)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: logradouro
-                  type: VARCHAR(255)
-              - column:
-                  name: complemento
-                  type: VARCHAR(255)
               - column:
                   name: bairro
-                  type: VARCHAR(150)
+                  type: VARCHAR(100)
               - column:
-                  name: localidade
-                  type: VARCHAR(150)
+                  name: cep
+                  type: VARCHAR(8)
               - column:
-                  name: uf
-                  type: VARCHAR(2)
+                  name: complemento
+                  type: VARCHAR(100)
               - column:
                   name: estado
+                  type: VARCHAR(100)
+              - column:
+                  name: ibge
+                  type: VARCHAR(10)
+              - column:
+                  name: localidade
+                  type: VARCHAR(100)
+              - column:
+                  name: logradouro
                   type: VARCHAR(150)
               - column:
                   name: regiao
                   type: VARCHAR(100)
               - column:
-                  name: ibge
-                  type: VARCHAR(20)
+                  name: uf
+                  type: VARCHAR(2)
               - column:
                   name: unidade
-                  type: VARCHAR(20)
-        - addForeignKeyConstraint:
-            baseTableName: addresses
-            baseColumnNames: customer_id
-            constraintName: fk_addresses_customer
-            referencedTableName: customers
-            referencedColumnNames: id
+                  type: VARCHAR(50)
