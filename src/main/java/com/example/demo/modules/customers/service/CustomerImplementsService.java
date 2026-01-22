@@ -9,18 +9,17 @@ import com.example.demo.modules.customers.repository.CustomerRepository;
 import com.example.demo.utils.CpfUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @Service
-public class CustomerService implements ICustomerService{
+public class CustomerImplementsService implements ICustomerService{
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
     private final CpfUtils cpfUtils;
 
-    public CustomerService(CustomerRepository customerRepository, CustomerMapper customerMapper, CpfUtils cpfUtils) {
+    public CustomerImplementsService(CustomerRepository customerRepository, CustomerMapper customerMapper, CpfUtils cpfUtils) {
         this.customerRepository = customerRepository;
         this.customerMapper = customerMapper;
         this.cpfUtils = cpfUtils;

@@ -10,7 +10,7 @@ import com.example.demo.modules.products.model.Product;
 import com.example.demo.modules.products.repository.ProductRepository;
 import com.example.demo.modules.sales.model.Sale;
 import com.example.demo.modules.sales.repository.SaleRepository;
-import com.example.demo.modules.sales.service.SaleService;
+import com.example.demo.modules.sales.service.SaleImplementsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,35 +18,37 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
-public class ItemSaleService {
+public class ItemSaleImplementsService {
 
     private final ProductRepository productRepository;
     private final ItemSaleRepository itemSaleRepository;
     private final ItemSaleMapper itemSaleMapper;
-    private final SaleService saleService;
+    private final SaleImplementsService saleImplementsService;
     private final SaleRepository saleRepository;
 
-    public ItemSaleService(ItemSaleRepository itemSaleRepository, ItemSaleMapper itemSaleMapper, ProductRepository productRepository, SaleService saleService, SaleRepository saleRepository) {
+    public ItemSaleImplementsService(ItemSaleRepository itemSaleRepository, ItemSaleMapper itemSaleMapper, ProductRepository productRepository, SaleImplementsService saleImplementsService, SaleRepository saleRepository) {
         this.itemSaleRepository = itemSaleRepository;
         this.itemSaleMapper = itemSaleMapper;
         this.productRepository = productRepository;
-        this.saleService = saleService;
+        this.saleImplementsService = saleImplementsService;
         this.saleRepository = saleRepository;
     }
 
     public ItemSaleResponseDto insertItemSaleService(ItemSaleRequestDto itemSaleRequestDto, Long idSale) {
 
-        ItemSale itemSale = itemSaleMapper.toModel(itemSaleRequestDto, idSale);
+        Sale sale = saleRepository.findById(idSale).orElseThrow(
+                () -> new ApiException(HttpStatus.NOT_FOUND, "Sale nots exists"));
+
+        Product product = productRepository.findById(itemSaleRequestDto.getProductId()).orElseThrow(
+                        () -> new ApiException(HttpStatus.NOT_FOUND, "Product nots exists"));
+
+        ItemSale itemSale = itemSaleMapper.toModel(itemSaleRequestDto, sale, product.getId());
         ItemSale itemSaleSaved = itemSaleRepository.save(itemSale);
 
         if (idSale != null) {
-            Sale sale = saleRepository.findById(idSale).orElseThrow(
-                    () -> new ApiException(HttpStatus.NOT_FOUND, "Sale nots exits"));
-
-            saleService.recalculateTotalAmount(sale);
+            saleImplementsService.recalculateTotalAmount(sale);
             saleRepository.save(sale);
         }
-
         return itemSaleMapper.toResponse(itemSaleSaved);
     }
 

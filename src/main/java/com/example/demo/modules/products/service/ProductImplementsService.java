@@ -13,12 +13,12 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
-public class ProductService implements IProductService {
+public class ProductImplementsService implements IProductService {
 
     private final ProductRepository repository;
     private final ProductMapper mapper;
 
-    public ProductService(ProductRepository repository, ProductMapper mapper) {
+    public ProductImplementsService(ProductRepository repository, ProductMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

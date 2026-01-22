@@ -2,7 +2,7 @@ package com.example.demo.modules.customers.controller;
 
 import com.example.demo.modules.customers.dto.CustomerRequestDto;
 import com.example.demo.modules.customers.dto.CustomerResponseDto;
-import com.example.demo.modules.customers.service.CustomerService;
+import com.example.demo.modules.customers.service.CustomerImplementsService;
 import com.example.demo.modules.customers.service.ICustomerService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +15,8 @@ public class CustomerController {
 
     public ICustomerService customerService;
 
-    public CustomerController(CustomerService customerService) {
-        this.customerService = customerService;
+    public CustomerController(CustomerImplementsService customerImplementsService) {
+        this.customerService = customerImplementsService;
     }
 
     @PostMapping
