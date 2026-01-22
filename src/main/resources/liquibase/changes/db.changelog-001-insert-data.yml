@@ -11,16 +11,16 @@ databaseChangeLog:
                   valueNumeric: 1
               - column:
                   name: name
-                  value: "Cliente Teste 1"
+                  value: "Tomás Kaique Enrico Moura"
               - column:
                   name: cpf
                   value: "91421137097"
               - column:
                   name: cep
-                  value: "01001000"
+                  value: "13871096"
               - column:
                   name: logradouro
-                  value: "Rua Teste 1"
+                  value: "Rua Três"
               - column:
                   name: complemento
                   value: "Apto 101"
@@ -29,10 +29,10 @@ databaseChangeLog:
                   value: "UN1"
               - column:
                   name: bairro
-                  value: "Centro"
+                  value: "Jardim Santa Rita"
               - column:
                   name: localidade
-                  value: "São Paulo"
+                  value: "São João da Boa Vista"
               - column:
                   name: uf
                   value: "SP"
@@ -58,13 +58,13 @@ databaseChangeLog:
                   valueNumeric: 1
               - column:
                   name: COD_PRODUCT
-                  value: "P001"
+                  value: "CHOC-B"
               - column:
                   name: description
-                  value: "Produto Teste 1"
+                  value: "CHOCOLATE BRANCO"
               - column:
                   name: price
-                  valueNumeric: 100.00
+                  valueNumeric: 9.99
         - insert:
             tableName: products
             columns:
@@ -73,13 +73,13 @@ databaseChangeLog:
                   valueNumeric: 2
               - column:
                   name: COD_PRODUCT
-                  value: "P002"
+                  value: "CHOC-P"
               - column:
                   name: description
-                  value: "Produto Teste 2"
+                  value: "CHOCOLATE PRETO"
               - column:
                   name: price
-                  valueNumeric: 150.00
+                  valueNumeric: 4.99
 
   - changeSet:
       id: 103-insert-sales

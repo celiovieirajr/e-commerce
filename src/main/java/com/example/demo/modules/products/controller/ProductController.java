@@ -3,7 +3,7 @@ package com.example.demo.modules.products.controller;
 import com.example.demo.modules.products.dto.ProductRequestDto;
 import com.example.demo.modules.products.dto.ProductResponseDto;
 import com.example.demo.modules.products.service.IProductService;
-import com.example.demo.modules.products.service.ProductService;
+import com.example.demo.modules.products.service.ProductImplementsService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ public class ProductController {
 
     private final IProductService service;
 
-    public ProductController(ProductService service) {
+    public ProductController(ProductImplementsService service) {
         this.service = service;
     }
 

@@ -12,12 +12,10 @@ import com.example.demo.modules.sales.dto.SaleResponseDto;
 import com.example.demo.modules.sales.mapper.SaleMapper;
 import com.example.demo.modules.sales.model.Sale;
 import com.example.demo.modules.sales.repository.SaleRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,7 +23,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
-public class SaleService implements ISaleService{
+public class SaleImplementsService implements ISaleService{
 
     private final SaleRepository saleRepository;
     private final CustomerRepository customerRepository;
@@ -33,7 +31,7 @@ public class SaleService implements ISaleService{
     private final ProductRepository productRepository;
     private final SaleMapper saleMapper;
 
-    public SaleService(SaleRepository saleRepository, CustomerRepository customerRepository, ItemSaleRepository itemSaleRepository, ProductRepository productRepository, SaleMapper saleMapper) {
+    public SaleImplementsService(SaleRepository saleRepository, CustomerRepository customerRepository, ItemSaleRepository itemSaleRepository, ProductRepository productRepository, SaleMapper saleMapper) {
         this.saleRepository = saleRepository;
         this.customerRepository = customerRepository;
         this.itemSaleRepository = itemSaleRepository;

@@ -3,7 +3,7 @@ package com.example.demo.modules.sales.controller;
 import com.example.demo.modules.sales.dto.SaleRequestDto;
 import com.example.demo.modules.sales.dto.SaleResponseDto;
 import com.example.demo.modules.sales.service.ISaleService;
-import com.example.demo.modules.sales.service.SaleService;
+import com.example.demo.modules.sales.service.SaleImplementsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +16,8 @@ public class SaleController {
 
     private final ISaleService saleService;
 
-    public SaleController(SaleService saleService) {
-        this.saleService = saleService;
+    public SaleController(SaleImplementsService saleImplementsService) {
+        this.saleService = saleImplementsService;
     }
 
     @PostMapping
