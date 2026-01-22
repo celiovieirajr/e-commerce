@@ -30,7 +30,7 @@ public class SaleMapper {
         Sale sale = new Sale();
 
         List<ItemSale> itemSales = dto.getItens().stream()
-                .map(itemDto -> itemSaleMapper.toModel(itemDto, sale, itemDto.getProductId()))
+                .map(itemDto -> itemSaleMapper.toModel(itemDto, sale))
                 .toList();
 
         itemSales.forEach(item -> item.setSale(sale));

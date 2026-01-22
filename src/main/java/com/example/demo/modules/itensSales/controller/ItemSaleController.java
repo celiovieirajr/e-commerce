@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController @RequestMapping("/itemSales")
+@RestController @RequestMapping("/sale/{saleId}/itemSales/")
 public class ItemSaleController {
 
     private final ItemSaleImplementsService itemSaleImplementsService;
@@ -18,33 +18,34 @@ public class ItemSaleController {
         this.itemSaleImplementsService = itemSaleImplementsService;
     }
 
-    @PostMapping("/{idSale}")
+    @PostMapping()
     public ResponseEntity<ItemSaleResponseDto> insertItemSaleController(@RequestBody ItemSaleRequestDto itemSaleRequestDto,
-                                                                        @PathVariable Long idSale) {
-        ItemSaleResponseDto responseDto = itemSaleImplementsService.insertItemSaleService(itemSaleRequestDto, idSale);
+                                                                        @PathVariable("saleId") Long saleId) {
+        ItemSaleResponseDto responseDto = itemSaleImplementsService.insertItemSaleService(itemSaleRequestDto, saleId);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ItemSaleResponseDto> findItemSaleByIdController(@PathVariable Long id) {
-        return ResponseEntity.ok(itemSaleImplementsService.findItemSaleById(id));
+    @GetMapping("/{itemSaleId}")
+    public ResponseEntity<ItemSaleResponseDto> findItemSaleByIdController(@PathVariable("saleId") Long saleId,
+                                                                          @PathVariable("itemSaleId") Long itemSaleId) {
+        return ResponseEntity.ok(itemSaleImplementsService.findItemSaleById(saleId, itemSaleId));
     }
-
-    @GetMapping
-    public ResponseEntity<List<ItemSaleResponseDto>> findAllItemSale() {
-        return ResponseEntity.ok(itemSaleImplementsService.findAllItemSale());
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<ItemSaleResponseDto> updateItemSaleByIdController(@PathVariable Long id,
-                                                                            @RequestBody ItemSaleRequestDto requestDto) {
-        ItemSaleResponseDto responseDto = itemSaleImplementsService.updateItemSaleById(id, requestDto);
-        return ResponseEntity.noContent().build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteItemSaleByIdController(@PathVariable Long id) {
-        itemSaleImplementsService.deleteItemSaleById(id);
-        return ResponseEntity.noContent().build();
-    }
+//
+//    @GetMapping
+//    public ResponseEntity<List<ItemSaleResponseDto>> findAllItemSale() {
+//        return ResponseEntity.ok(itemSaleImplementsService.findAllItemSale());
+//    }
+//
+//    @PutMapping("/{id}")
+//    public ResponseEntity<ItemSaleResponseDto> updateItemSaleByIdController(@PathVariable Long id,
+//                                                                            @RequestBody ItemSaleRequestDto requestDto) {
+//        ItemSaleResponseDto responseDto = itemSaleImplementsService.updateItemSaleById(id, requestDto);
+//        return ResponseEntity.noContent().build();
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<?> deleteItemSaleByIdController(@PathVariable Long id) {
+//        itemSaleImplementsService.deleteItemSaleById(id);
+//        return ResponseEntity.noContent().build();
+//    }
 }
