@@ -1,9 +1,9 @@
 databaseChangeLog:
-  - include:
-      file: classpath:changelog/changes/db.changelog-001-create-customers.yml
-  - include:
-      file: classpath:changelog/changes/db.changelog-002-create-sales.yml
-  - include:
-      file: classpath:changelog/changes/db.changelog-003-create-products.yml
-  - include:
-      file: classpath:changelog/changes/db.changelog-004-create-itemSales.yml
+#  - include:
+#      file: classpath:changelog/changes/db.changelog-001-create-tables.yml
+#  - include:
+#      file: classpath:changelog/changes/db.changelog-002-create-sales.yml
+#  - include:
+#      file: classpath:changelog/changes/db.changelog-003-create-products.yml
+#  - include:
+#      file: classpath:changelog/changes/db.changelog-004-create-itemSales.yml

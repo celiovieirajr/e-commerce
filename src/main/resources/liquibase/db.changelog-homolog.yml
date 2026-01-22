@@ -1,13 +1,7 @@
 databaseChangeLog:
   - include:
-      file: changes/db.changelog-001-create-customers.yml
+      file: changes/db.changelog-001-create-tables.yml
       relativeToChangelogFile: true
   - include:
-      file: changes/db.changelog-002-create-sales.yml
+      file: changes/db.changelog-001-insert-data.yml
       relativeToChangelogFile: true
-#  - include:
-#      file: changes/db.changelog-003-create-products.yml
-#      relativeToChangelogFile: true
-#  - include:
-#      file: changes/db.changelog-004-create-itemSales.yml
-#      relativeToChangelogFile: true

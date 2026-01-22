@@ -1,6 +1,62 @@
 databaseChangeLog:
   - changeSet:
-      id: 003-create-products
+      id: 001-create-customers
+      author: celio
+      changes:
+        - createTable:
+            tableName: customers
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(150)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cpf
+                  type: VARCHAR(11)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: cep
+                  type: VARCHAR(8)
+              - column:
+                  name: logradouro
+                  type: VARCHAR(255)
+              - column:
+                  name: complemento
+                  type: VARCHAR(255)
+              - column:
+                  name: unidade
+                  type: VARCHAR(50)
+              - column:
+                  name: bairro
+                  type: VARCHAR(150)
+              - column:
+                  name: localidade
+                  type: VARCHAR(150)
+              - column:
+                  name: uf
+                  type: VARCHAR(2)
+              - column:
+                  name: estado
+                  type: VARCHAR(150)
+              - column:
+                  name: regiao
+                  type: VARCHAR(50)
+              - column:
+                  name: ibge
+                  type: VARCHAR(20)
+
+  - changeSet:
+      id: 002-create-products
       author: celio
       changes:
         - createTable:
@@ -14,7 +70,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: codProduct
+                  name: COD_PRODUCT  #snakeCase = snake_case in hibernate
                   type: VARCHAR(50)
               - column:
                   name: description
@@ -24,7 +80,7 @@ databaseChangeLog:
                   type: NUMERIC(38,2)
 
   - changeSet:
-      id: 004-create-sales
+      id: 003-create-sales
       author: celio
       changes:
         - createTable:
@@ -38,24 +94,26 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: customer_id
+                  name: CUSTOMER_ID
                   type: BIGINT
+                  constraints:
+                    nullable: false
               - column:
-                  name: totalAmount
+                  name: TOTAL_AMOUNT
                   type: NUMERIC(38,2)
         - addForeignKeyConstraint:
             baseTableName: sales
-            baseColumnNames: customer_id
+            baseColumnNames: CUSTOMER_ID
             referencedTableName: customers
             referencedColumnNames: id
             constraintName: fk_sales_customers
 
   - changeSet:
-      id: 005-create-itemSales
+      id: 004-create-itemSales
       author: celio
       changes:
         - createTable:
-            tableName: itemSales
+            tableName: item_sales
             columns:
               - column:
                   name: id
@@ -65,11 +123,15 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: sale_id
+                  name: SALE_ID
                   type: BIGINT
+                  constraints:
+                    nullable: false
               - column:
-                  name: product_id
+                  name: PRODUCT_ID
                   type: BIGINT
+                  constraints:
+                    nullable: false
               - column:
                   name: quantity
                   type: INTEGER
@@ -77,18 +139,17 @@ databaseChangeLog:
                   name: amount
                   type: NUMERIC(38,2)
               - column:
-                  name: totalAmount
+                  name: TOTAL_AMOUNT
                   type: NUMERIC(38,2)
         - addForeignKeyConstraint:
-            baseTableName: itemSales
+            baseTableName: item_sales
             baseColumnNames: sale_id
             referencedTableName: sales
             referencedColumnNames: id
             constraintName: fk_itemSales_sales
         - addForeignKeyConstraint:
-            baseTableName: itemSales
+            baseTableName: item_Sales
             baseColumnNames: product_id
             referencedTableName: products
             referencedColumnNames: id
             constraintName: fk_itemSales_products
-

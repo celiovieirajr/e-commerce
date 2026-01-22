@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 
 public class ItemSale {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -21,6 +21,7 @@ public class ItemSale {
     private Sale sale;
 
     @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
 
     private Integer quantity;

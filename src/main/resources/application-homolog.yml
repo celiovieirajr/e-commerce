@@ -18,8 +18,6 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:liquibase/db.changelog-homolog.yml
-    default-schema: PUBLIC
-    drop-first: false
 
 server:
   port: 3000
@@ -28,3 +26,6 @@ logging:
   level:
     liquibase: DEBUG
     org.springframework.boot.autoconfigure.liquibase: TRACE
+    org.hibernate.orm.jdbc.error: ERROR
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE

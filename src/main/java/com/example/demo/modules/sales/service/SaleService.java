@@ -65,7 +65,7 @@ public class SaleService implements ISaleService{
 
         Customer customer = customerRepository.findById(dto.getIdCustomer())
                 .orElseThrow(() -> new ApiException(NOT_FOUND, "Customer nots exits"));
-        sale.setCustomer(customer);
+        sale.setCustomerId(customer.getId());
 
         if (sale.getItemSale() == null) {
             throw new ApiException(BAD_REQUEST, "Depedency itensSales nots exits");
@@ -102,8 +102,10 @@ public class SaleService implements ISaleService{
     }
 
     public void deleteSaleById(Long id) {
-        saleRepository.findById(id).orElseThrow(
+        Sale sale = saleRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(NOT_FOUND, "Sale " + id + " nots exits"));
+
+        saleRepository.delete(sale);
     }
 
     public void recalculateTotalAmount (Sale sale) {
