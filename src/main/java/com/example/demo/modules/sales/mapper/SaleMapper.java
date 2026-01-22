@@ -41,6 +41,7 @@ public class SaleMapper {
 
         Customer customer = customerRepository.findById(dto.getIdCustomer()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer nots exits"));
+        sale.setCustomerId(customer.getId());
         sale.setCustomer(customer);
 
         return sale;
@@ -49,7 +50,7 @@ public class SaleMapper {
     public SaleResponseDto toResponse(Sale sale) {
         SaleResponseDto saleResponseDto = new SaleResponseDto();
         saleResponseDto.setId(sale.getId());
-        saleResponseDto.setIdCustomer(sale.getCustomer().getId());
+        saleResponseDto.setIdCustomer(sale.getCustomerId());
 
         saleResponseDto.setItens(
                 sale.getItemSale().stream()
@@ -58,6 +59,7 @@ public class SaleMapper {
         );
 
         saleResponseDto.setTotalAmount(sale.getTotalAmount());
+        saleResponseDto.setIdCustomer(saleResponseDto.getIdCustomer());
 
         return saleResponseDto;
     }

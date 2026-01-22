@@ -1,0 +1,146 @@
+databaseChangeLog:
+  - changeSet:
+      id: 101-insert-customers
+      author: celio
+      changes:
+        - insert:
+            tableName: customers
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: name
+                  value: "Cliente Teste 1"
+              - column:
+                  name: cpf
+                  value: "91421137097"
+              - column:
+                  name: cep
+                  value: "01001000"
+              - column:
+                  name: logradouro
+                  value: "Rua Teste 1"
+              - column:
+                  name: complemento
+                  value: "Apto 101"
+              - column:
+                  name: unidade
+                  value: "UN1"
+              - column:
+                  name: bairro
+                  value: "Centro"
+              - column:
+                  name: localidade
+                  value: "São Paulo"
+              - column:
+                  name: uf
+                  value: "SP"
+              - column:
+                  name: estado
+                  value: "São Paulo"
+              - column:
+                  name: regiao
+                  value: "Sudeste"
+              - column:
+                  name: ibge
+                  value: "3550308"
+
+  - changeSet:
+      id: 102-insert-products
+      author: celio
+      changes:
+        - insert:
+            tableName: products
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: COD_PRODUCT
+                  value: "P001"
+              - column:
+                  name: description
+                  value: "Produto Teste 1"
+              - column:
+                  name: price
+                  valueNumeric: 100.00
+        - insert:
+            tableName: products
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 2
+              - column:
+                  name: COD_PRODUCT
+                  value: "P002"
+              - column:
+                  name: description
+                  value: "Produto Teste 2"
+              - column:
+                  name: price
+                  valueNumeric: 150.00
+
+  - changeSet:
+      id: 103-insert-sales
+      author: celio
+      changes:
+        - insert:
+            tableName: sales
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: CUSTOMER_ID
+                  valueNumeric: 1
+              - column:
+                  name: TOTAL_AMOUNT
+                  valueNumeric: 350.00
+
+  - changeSet:
+      id: 104-insert-item-sales
+      author: celio
+      changes:
+        - insert:
+            tableName: item_sales
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: SALE_ID
+                  valueNumeric: 1
+              - column:
+                  name: PRODUCT_ID
+                  valueNumeric: 1
+              - column:
+                  name: quantity
+                  valueNumeric: 2
+              - column:
+                  name: amount
+                  valueNumeric: 100.00
+              - column:
+                  name: TOTAL_AMOUNT
+                  valueNumeric: 200.00
+        - insert:
+            tableName: item_sales
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 2
+              - column:
+                  name: SALE_ID
+                  valueNumeric: 1
+              - column:
+                  name: PRODUCT_ID
+                  valueNumeric: 2
+              - column:
+                  name: quantity
+                  valueNumeric: 1
+              - column:
+                  name: amount
+                  valueNumeric: 150.00
+              - column:
+                  name: TOTAL_AMOUNT
+                  valueNumeric: 150.00
