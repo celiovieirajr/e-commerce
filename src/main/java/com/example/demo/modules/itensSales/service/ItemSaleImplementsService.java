@@ -42,7 +42,7 @@ public class ItemSaleImplementsService {
         Product product = productRepository.findById(itemSaleRequestDto.getProductId()).orElseThrow(
                         () -> new ApiException(HttpStatus.NOT_FOUND, "Product nots exists"));
 
-        ItemSale itemSale = itemSaleMapper.toModel(itemSaleRequestDto, sale, product.getId());
+        ItemSale itemSale = itemSaleMapper.toModel(itemSaleRequestDto, sale);
         ItemSale itemSaleSaved = itemSaleRepository.save(itemSale);
 
         if (idSale != null) {
@@ -52,9 +52,17 @@ public class ItemSaleImplementsService {
         return itemSaleMapper.toResponse(itemSaleSaved);
     }
 
-    public ItemSaleResponseDto findItemSaleById(Long id) {
-        return itemSaleRepository.findById(id).map(itemSaleMapper::toResponse).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ItemSale nots exits"));
+
+    public ItemSaleResponseDto findItemSaleById(Long idSale, Long idItemSale) {
+
+            ItemSale itemSale = itemSaleRepository.findById(idItemSale).orElseThrow(
+                    () -> new ApiException(HttpStatus.NOT_FOUND, "ItemSale nots exists"));
+
+            if (!itemSale.getSale().getId().equals(idSale)) {
+                throw new ApiException(HttpStatus.NOT_FOUND, "Sale nots exists");
+            }
+
+            return itemSaleMapper.toResponse(itemSale);
     }
 
     public List<ItemSaleResponseDto> findAllItemSale() {

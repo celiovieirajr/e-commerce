@@ -30,33 +30,10 @@ public class ItemSaleMapper {
         this.saleRepository = saleRepository;
     }
 
-    public ItemSale toModel(ItemSaleRequestDto itemSaleRequestDto, Long idSale) {
+
+    public ItemSale toModel(ItemSaleRequestDto itemSaleRequestDto, Sale sale) {
+
         Product product = productRepository.findById(itemSaleRequestDto.getProductId()).orElseThrow(
-                () -> new ApiException(HttpStatus.NOT_FOUND, "Products nots exits"));
-
-        int quantity = itemSaleRequestDto.getQuantity();
-
-        ItemSale itemSale = new ItemSale();
-        BigDecimal unitPrice = product.getPrice() == null ? BigDecimal.ZERO : product.getPrice();
-        itemSale.setAmount(unitPrice);
-
-        itemSale.setQuantity(quantity);
-        BigDecimal total = unitPrice.multiply(BigDecimal.valueOf(quantity)).setScale(2, RoundingMode.HALF_UP);
-
-        itemSale.setTotalAmount(total);
-        itemSale.setProduct(product);
-
-        Sale sale = saleRepository.findById(idSale).orElseThrow(
-                () -> new ApiException(HttpStatus.NOT_FOUND, "Sale nots exits"));
-
-        itemSale.setSale(sale);
-
-        return itemSale;
-    }
-
-    public ItemSale toModel(ItemSaleRequestDto itemSaleRequestDto, Sale sale, Long productId) {
-
-        Product product = productRepository.findById(productId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Products nots exits"));
 
         int quantity = itemSaleRequestDto.getQuantity();

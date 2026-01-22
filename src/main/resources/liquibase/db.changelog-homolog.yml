@@ -3,5 +3,8 @@ databaseChangeLog:
       file: changes/db.changelog-001-create-tables.yml
       relativeToChangelogFile: true
   - include:
-      file: changes/db.changelog-001-insert-data.yml
+      file: changes/db.changelog-002-insert-data.yml
+      relativeToChangelogFile: true
+  - include:
+      file: changes/db.changelog-003-updated-index.yml
       relativeToChangelogFile: true

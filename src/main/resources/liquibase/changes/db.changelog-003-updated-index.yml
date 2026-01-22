@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 200-fix-identities
+      author: celio
+      changes:
+        - sql: ALTER TABLE customers   ALTER COLUMN id RESTART WITH 2
+        - sql: ALTER TABLE products    ALTER COLUMN id RESTART WITH 3
+        - sql: ALTER TABLE sales       ALTER COLUMN id RESTART WITH 2
+        - sql: ALTER TABLE item_sales  ALTER COLUMN id RESTART WITH 3
