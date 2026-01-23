@@ -35,7 +35,7 @@ public class CustomerMapper {
 
     public CustomerResponseDto toResponse(Customer model) {
         CustomerResponseDto responseDto = new CustomerResponseDto();
-        responseDto.setId(model.getId());
+        responseDto.setCustomerId(model.getId());
         responseDto.setName(model.getName());
         responseDto.setCpf(model.getCpf());
 

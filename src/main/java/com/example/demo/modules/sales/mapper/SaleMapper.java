@@ -1,5 +1,6 @@
 package com.example.demo.modules.sales.mapper;
 
+import com.example.demo.exception.ApiException;
 import com.example.demo.modules.customers.model.Customer;
 import com.example.demo.modules.customers.repository.CustomerRepository;
 import com.example.demo.modules.itensSales.mapper.ItemSaleMapper;
@@ -49,8 +50,8 @@ public class SaleMapper {
 
     public SaleResponseDto toResponse(Sale sale) {
         SaleResponseDto saleResponseDto = new SaleResponseDto();
-        saleResponseDto.setId(sale.getId());
-        saleResponseDto.setIdCustomer(sale.getCustomerId());
+        saleResponseDto.setSaleId(sale.getId());
+        saleResponseDto.setCustomerId(sale.getCustomerId());
 
         saleResponseDto.setItens(
                 sale.getItemSale().stream()
@@ -58,8 +59,13 @@ public class SaleMapper {
                         .toList()
         );
 
+        Customer customer = customerRepository.findById(sale.getCustomerId()).orElseThrow(
+                () -> new ApiException(HttpStatus.NOT_FOUND, "Customer nots exits"));
+
         saleResponseDto.setTotalAmount(sale.getTotalAmount());
-        saleResponseDto.setIdCustomer(saleResponseDto.getIdCustomer());
+        saleResponseDto.setCustomerId(sale.getCustomerId());
+        saleResponseDto.setCustomerName(customer.getName());
+        saleResponseDto.setDocument(customer.getCpf());
 
         return saleResponseDto;
     }

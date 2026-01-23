@@ -8,18 +8,19 @@ import java.math.BigDecimal;
 
 @Data
 @JsonPropertyOrder({
-        "id",
+        "itemSaleId",
         "quantity",
         "amount",
-        "productResponseDto",
+        "codProduct",
+        "description",
         "totalAmout"
 })
 public class ItemSaleResponseDto {
 
-    private long id;
+    private long itemSaleId;
     private int quantity;
     private BigDecimal amount;
+    private String codProduct;
+    private String description;
     private BigDecimal totalAmount;
-    private ProductResponseDto productResponseDto;
-
 }

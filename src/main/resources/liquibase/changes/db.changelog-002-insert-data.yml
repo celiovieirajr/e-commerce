@@ -96,7 +96,7 @@ databaseChangeLog:
                   valueNumeric: 1
               - column:
                   name: TOTAL_AMOUNT
-                  valueNumeric: 350.00
+                  valueNumeric: 24.97
 
   - changeSet:
       id: 104-insert-item-sales
@@ -122,7 +122,7 @@ databaseChangeLog:
                   valueNumeric: 100.00
               - column:
                   name: TOTAL_AMOUNT
-                  valueNumeric: 200.00
+                  valueNumeric: 19.98
         - insert:
             tableName: item_sales
             columns:
@@ -140,7 +140,7 @@ databaseChangeLog:
                   valueNumeric: 1
               - column:
                   name: amount
-                  valueNumeric: 150.00
+                  valueNumeric: 4.99
               - column:
                   name: TOTAL_AMOUNT
-                  valueNumeric: 150.00
+                  valueNumeric: 4.99

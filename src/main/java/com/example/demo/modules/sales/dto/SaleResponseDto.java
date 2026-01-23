@@ -10,15 +10,19 @@ import java.util.List;
 
 @Data
 @JsonPropertyOrder({
-        "id",
-        "idCustomer",
+        "saleId",
+        "customerId",
+        "customerName",
+        "document",
         "itens",
         "totalAmount"
 })
 public class SaleResponseDto {
 
-    private Long id;
-    private Long idCustomer;
+    private Long saleId;
+    private Long customerId;
+    private String customerName;
+    private String document;
     private BigDecimal totalAmount;
     private List<ItemSaleResponseDto> itens;
 }

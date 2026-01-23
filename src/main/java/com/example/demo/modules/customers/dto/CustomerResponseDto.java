@@ -9,7 +9,7 @@ import lombok.Data;
 @JsonPropertyOrder({"id", "name", "cpf", "addres"})
 public class CustomerResponseDto {
 
-    private long id;
+    private long customerId;
     private String name;
     private String cpf;
 
