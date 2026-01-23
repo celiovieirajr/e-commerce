@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -65,29 +66,65 @@ public class ItemSaleImplementsService {
             return itemSaleMapper.toResponse(itemSale);
     }
 
-    public List<ItemSaleResponseDto> findAllItemSale() {
-        return itemSaleRepository.findAll().stream().map(itemSaleMapper::toResponse).toList();
-    }
+    public List<ItemSaleResponseDto> findAllItemSale(Long saleId) {
 
-    public ItemSaleResponseDto updateItemSaleById(Long id, ItemSaleRequestDto itemSaleRequestDto) {
-        ItemSale model = itemSaleRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ItemSales nots exits"));
-
-        model.setQuantity(itemSaleRequestDto.getQuantity());
-
-        if (model.getProduct() != null) {
-            Product product = productRepository.findById(itemSaleRequestDto.getProductId()).orElseThrow(
-                    () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Products nots exits"));
-            model.setProduct(product);
+        if (saleId == null || saleId == 0) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "Sale nots exists");
         }
 
-        ItemSale modelSaved = itemSaleRepository.save(model);
+        Sale sale = saleRepository.findById(saleId).orElseThrow(
+                () -> new ApiException(HttpStatus.NOT_FOUND, "Sale nots exits"));
 
-        return itemSaleMapper.toResponse(modelSaved);
+        if (sale.getId() == saleId) {
+            List<ItemSaleResponseDto> list = itemSaleRepository.findAll().stream().map(itemSaleMapper::toResponse).toList();
+            return list;
+        }
+        return List.of();
     }
 
-    public void deleteItemSaleById(Long id) {
-        itemSaleRepository.delete(itemSaleRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ItemSale nots exits")));
+    public ItemSaleResponseDto updateItemSaleById(Long saleId, Long itemSaleId, ItemSaleRequestDto itemSaleRequestDto) {
+
+        Sale sale = saleRepository.findById(saleId).orElseThrow(
+                () -> new ApiException(HttpStatus.NOT_FOUND, "Sale nots exists"));
+
+
+        ItemSale itemSale = itemSaleRepository.findById(itemSaleId).orElseThrow(
+                () -> new ApiException(HttpStatus.NOT_FOUND, "ItemSale nots exists"));
+
+        Product product = productRepository.findById(itemSaleRequestDto.getProductId()).orElseThrow(
+                () -> new ApiException(HttpStatus.NOT_FOUND, "Product nots exists"));
+
+        if (sale.getId() != saleId) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Error system");
+        }
+
+        itemSale.setProduct(product);
+        itemSale.setAmount(product.getPrice());
+        itemSale.setQuantity(itemSaleRequestDto.getQuantity());
+
+        BigDecimal totalAmount = product.getPrice().multiply(BigDecimal.valueOf(itemSaleRequestDto.getQuantity()));
+        itemSale.setTotalAmount(totalAmount);
+//        itemSale.setSale(sale);
+
+        ItemSale itemSaleSaved = itemSaleRepository.save(itemSale);
+
+        saleImplementsService.recalculateTotalAmount(sale);
+
+        return itemSaleMapper.toResponse(itemSaleSaved);
+    }
+
+    public void deleteItemSaleById(Long saleId, Long itemSaleId) {
+
+        ItemSale itemSale = itemSaleRepository.findById(itemSaleId).orElseThrow(
+                () -> new ApiException(HttpStatus.NOT_FOUND, "ItemSale nots exists"));
+
+        Sale sale = saleRepository.findById(saleId).orElseThrow(
+                () -> new ApiException(HttpStatus.NOT_FOUND, "Sale nots exits"));
+
+        if (itemSale.getSale().getId() != sale.getId()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Error different idSale or idItemSale");
+        }
+        saleImplementsService.recalculateTotalAmount(sale);
+        itemSaleRepository.delete(itemSale);
     }
 }

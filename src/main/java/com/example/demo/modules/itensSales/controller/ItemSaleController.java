@@ -30,22 +30,24 @@ public class ItemSaleController {
                                                                           @PathVariable("itemSaleId") Long itemSaleId) {
         return ResponseEntity.ok(itemSaleImplementsService.findItemSaleById(saleId, itemSaleId));
     }
-//
-//    @GetMapping
-//    public ResponseEntity<List<ItemSaleResponseDto>> findAllItemSale() {
-//        return ResponseEntity.ok(itemSaleImplementsService.findAllItemSale());
-//    }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<ItemSaleResponseDto> updateItemSaleByIdController(@PathVariable Long id,
-//                                                                            @RequestBody ItemSaleRequestDto requestDto) {
-//        ItemSaleResponseDto responseDto = itemSaleImplementsService.updateItemSaleById(id, requestDto);
-//        return ResponseEntity.noContent().build();
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<?> deleteItemSaleByIdController(@PathVariable Long id) {
-//        itemSaleImplementsService.deleteItemSaleById(id);
-//        return ResponseEntity.noContent().build();
-//    }
+
+    @GetMapping
+    public ResponseEntity<List<ItemSaleResponseDto>> findAllItemSale(@PathVariable("saleId") Long saleId) {
+        return ResponseEntity.ok(itemSaleImplementsService.findAllItemSale(saleId));
+    }
+
+    @PutMapping("/{itemSaleId}")
+    public ResponseEntity<ItemSaleResponseDto> updateItemSaleByIdController(@PathVariable("saleId") Long saleId,
+                                                                            @PathVariable("itemSaleId") Long itemSaleId,
+                                                                            @RequestBody ItemSaleRequestDto requestDto) {
+        ItemSaleResponseDto responseDto = itemSaleImplementsService.updateItemSaleById(saleId, itemSaleId, requestDto);
+        return ResponseEntity.ok().body(responseDto);
+    }
+
+    @DeleteMapping("/{itemSaleId}")
+    public ResponseEntity<?> deleteItemSaleByIdController(@PathVariable("saleId") Long saleId,
+                                                          @PathVariable("itemSaleId") Long itemSaleId) {
+        itemSaleImplementsService.deleteItemSaleById(saleId, itemSaleId);
+        return ResponseEntity.noContent().build();
+    }
 }
