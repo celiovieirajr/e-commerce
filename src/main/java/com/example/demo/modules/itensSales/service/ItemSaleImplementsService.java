@@ -94,8 +94,8 @@ public class ItemSaleImplementsService {
         Product product = productRepository.findById(itemSaleRequestDto.getProductId()).orElseThrow(
                 () -> new ApiException(HttpStatus.NOT_FOUND, "Product nots exists"));
 
-        if (sale.getId() != saleId) {
-            throw new ApiException(HttpStatus.BAD_REQUEST, "Error system");
+        if (itemSale.getSale().getId() != saleId) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Error different idSale or idItemSale");
         }
 
         itemSale.setProduct(product);
