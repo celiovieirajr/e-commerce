@@ -55,11 +55,16 @@ public class ItemSaleMapper {
 
     public ItemSaleResponseDto toResponse(ItemSale itemSale) {
         ItemSaleResponseDto itemSaleResponseDto = new ItemSaleResponseDto();
-        itemSaleResponseDto.setId(itemSale.getId());
-        itemSaleResponseDto.setAmount(itemSale.getAmount());
+
+        Product product = productRepository.findById(itemSale.getProduct().getId()).orElseThrow(
+                () -> new ApiException(HttpStatus.NOT_FOUND, "Products nots exits"));
+
+        itemSaleResponseDto.setItemSaleId(itemSale.getId());
+        itemSaleResponseDto.setAmount(product.getPrice());
         itemSaleResponseDto.setQuantity(itemSale.getQuantity());
+        itemSaleResponseDto.setCodProduct(product.getCodProduct());
+        itemSaleResponseDto.setDescription(product.getDescription());
         itemSaleResponseDto.setTotalAmount(itemSale.getTotalAmount());
-        itemSaleResponseDto.setProductResponseDto(productMapper.toResponse(itemSale.getProduct()));
 
         return itemSaleResponseDto;
     }
