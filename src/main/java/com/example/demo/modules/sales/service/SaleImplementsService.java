@@ -93,9 +93,7 @@ public class SaleImplementsService implements ISaleService{
             listItens.add(itemSale);
         }
 
-        recalculateTotalAmount(sale);
-
-        Sale saved = saleRepository.save(sale);
+        Sale saved = recalculateTotalAmount(sale);
         return saleMapper.toResponse(saved);
     }
 
@@ -106,7 +104,7 @@ public class SaleImplementsService implements ISaleService{
         saleRepository.delete(sale);
     }
 
-    public void recalculateTotalAmount (Sale sale) {
+    public Sale recalculateTotalAmount (Sale sale) {
         BigDecimal total = sale.getItemSale() == null
                 ? BigDecimal.ZERO
                 : sale.getItemSale().stream()
@@ -115,6 +113,9 @@ public class SaleImplementsService implements ISaleService{
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         sale.setTotalAmount(total);
+        saleRepository.save(sale);
+
+        return sale;
     }
 
 }
