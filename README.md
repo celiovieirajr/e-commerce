@@ -1,154 +1,227 @@
-# E-Commerce Core API
+The E-Commerce Core API simulates the core of an online sales platform, covering
+real-world use cases such as:
 
-![Java](https://img.shields.io/badge/Java-17-orange?style=flat-square&logo=java)
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.x-brightgreen?style=flat-square&logo=springboot)
-![Maven](https://img.shields.io/badge/Maven-3.9+-blue?style=flat-square&logo=apachemaven)
-![Swagger](https://img.shields.io/badge/Swagger-OpenAPI-success?style=flat-square&logo=swagger)
+ - Product management (create, update, list, delete)
+ - Sales management
+ - Sale item management
+ - Customer management
+ - ZIP code lookup via the VIACEP API
+ - Continuous evolution with clean-code and architecture best practices
 
-> *Projeto de E-commerce desenvolvido com Java e Spring Boot, focado em múltiplos CRUDs, arquitetura limpa, documentação com Swagger e pipeline de CI/CD.*
+The project is suitable for learning, portfolio, and as a foundation for larger
+systems.
 
----
+-------------------------------------------------------------------------------------
 
-## Visão Geral
+Summary
 
-O **E-Commerce Core API** é um projeto backend que simula o núcleo de um sistema de vendas online, abordando cenários reais do mercado como:
+ - Stack & Versions (#-stack--versions)
+ - Architecture (#-architecture)
+ - System Domains (#-system-domains)
+ - Project Structure (#-project-structure)
+ - Swagger Documentation (#-swagger-documentation)
+ - Configuration (#-configuration)
+ - Running Locally (#-running-locally)
+ - CI & CD (#-ci--cd)
+ - Quality Gates (#-quality-gates)
+ - Roadmap (#-roadmap)
+ - License (#-license)
 
-- Cadastro e gerenciamento de produtos
-- Cadastro e gerenciamento de vendas
-- Cadastro e gerenciamneto de itensVendas
-- Cadastro e gerenciamento de clientes
-- Consulta de cep através do consumo da API VIACEP
-- Evolução contínua com boas práticas
+-------------------------------------------------------------------------------------
 
-O projeto foi pensado para **aprendizado, portfólio e base para projetos maiores**.
+🛠 Stack & Versions
 
----
+┌─────────────┬───────────────────┐
+│ Layer       │ Technology        │
+├─────────────┼───────────────────┤
+│ Language    │ Java 23           │
+├─────────────┼───────────────────┤
+│ Framework   │ Spring Boot 3.3.x │
+├─────────────┼───────────────────┤
+│ API         │ Spring Web (REST) │
+├─────────────┼───────────────────┤
+│ Persistence │ Spring Data JPA   │
+├─────────────┼───────────────────┤
+│ Database    │ H2 (homolog)      │
+├─────────────┼───────────────────┤
+│ Docs        │ Springdoc OpenAPI │
+├─────────────┼───────────────────┤
+│ Build       │ Maven             │
+├─────────────┼───────────────────┤
+│ CI/CD       │ GitHub Actions    │
+└─────────────┴───────────────────┘
 
-## Sumário
+-------------------------------------------------------------------------------------
 
-- [Stack & Versões](#-stack--versões)
-- [Arquitetura](#-arquitetura)
-- [Domínios do Sistema](#-domínios-do-sistema)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
-- [Documentação Swagger](#-documentação-swagger)
-- [Configuração](#-configuração)
-- [Execução Local](#-execução-local)
-- [CI & CD](#-ci--cd)
-- [Quality Gates](#-quality-gates)
-- [Roadmap](#-roadmap)
-- [Licença](#-licença)
+🏗 Architecture
 
----
+ flowchart TD
+     Client[Client / Frontend] --> Controller[Controllers]
+     Controller --> Service[Services]
+     Service --> Repository[Repositories]
+     Repository --> Database[(Database)]
 
-## 🛠 Stack & Versões
+     Controller --> Swagger[Swagger UI]
 
-| Camada | Tecnologia |
-|------|-----------|
-| Linguagem | Java 17 (LTS) |
-| Framework | Spring Boot 3.3.x |
-| API | Spring Web (REST) |
-| Persistência | Spring Data JPA |
-| Banco de Dados | H2 (dev) |
-| Documentação | Springdoc OpenAPI |
-| Build | Maven |
-| CI/CD | GitHub Actions |
+The architecture follows a layered approach (Controller → Service → Repository),
+aligned with clean architecture principles and REST best practices.
 
----
+-------------------------------------------------------------------------------------
 
-## 🏗 Arquitetura
+🧱 System Domains
 
-flowchart TD
-    Client[Client / Frontend] --> Controller[Controllers]
-    Controller --> Service[Services]
-    Service --> Repository[Repositories]
-    Repository --> Database[(Database)]
+Implemented CRUDs
 
-    Controller --> Swagger[Swagger UI]
+┌──────────┬────────────────────────────────────┐
+│ Entity   │ Description                        │
+├──────────┼────────────────────────────────────┤
+│ Product  │ Products available for sale        │
+├──────────┼────────────────────────────────────┤
+│ Customer │ Customer data and basic profile    │
+├──────────┼────────────────────────────────────┤
+│ Sale     │ Placed orders (sales)              │
+├──────────┼────────────────────────────────────┤
+│ ItemSale │ Items that belong to a given order │
+└──────────┴────────────────────────────────────┘
 
-🧱 Domínios do Sistema
-CRUDs Implementados
-Entidade	Descrição
-Product	Produtos disponíveis para venda
-Customer	Dados do cliente
-Sale	Pedido realizado
-ItemSale	Itens do pedido
-Funcionalidades Gerais
+General Features
 
-CRUD completo
+ - Full CRUD operations for the main entities
+ - Validation using Bean Validation (Jakarta Validation)
+ - Pagination and sorting for list endpoints
+ - Global exception handling with standardized error responses
+ - RESTful resource modeling and HTTP status codes
 
-Validações com Bean Validation
+-------------------------------------------------------------------------------------
 
-Paginação e ordenação
+📂 Project Structure
 
-Tratamento global de exceções
+ ecommerce-core/
+ ├─ .github/
+ │  └─ workflows/
+ │     ├─ ci.yml
+ │     └─ cd.yml
+ ├─ src/main/java/com/example/ecommerce/
+ │  ├─ controller/
+ │  ├─ service/
+ │  ├─ repository/
+ │  ├─ model/
+ │  ├─ dto/
+ │  ├─ mapper/
+ │  └─ config/
+ ├─ src/main/resources/
+ │  ├─ application.yml
+ │  ├─ application-dev.yml
+ │  └─ application-prod.yml
+ ├─ src/test/java/
+ ├─ pom.xml
+ └─ README.md
 
-Padrões REST
+-------------------------------------------------------------------------------------
 
-```text
-ecommerce-core/
-├─ .github/
-│  └─ workflows/
-│     ├─ ci.yml
-│     └─ cd.yml
-├─ src/main/java/com/example/ecommerce/
-│  ├─ controller/
-│  ├─ service/
-│  ├─ repository/
-│  ├─ model/
-│  ├─ dto/
-│  ├─ mapper/
-│  └─ config/
-├─ src/main/resources/
-│  ├─ application.yml
-│  ├─ application-dev.yml
-│  └─ application-prod.yml
-├─ src/test/java/
-├─ pom.xml
-└─ README.md
-```
+📑 Swagger Documentation
 
-📑 Documentação Swagger
+The API is documented using Swagger / OpenAPI via Springdoc.
 
-A API é documentada utilizando Swagger / OpenAPI.
+Access:
 
-Acesso
-```
-http://localhost:3000/swagger-ui.html
-```
-ou
-```
-http://localhost:3000/swagger-ui/index.html
-```
-Recursos Documentados
-Endpoints REST
-Métodos HTTP
-Parâmetros
+ http://localhost:3000/swagger-ui.html
 
-Exemplos de request/response
-Códigos de status HTTP
+or
 
-OpenAPI JSON
-http://localhost:3000/v3/api-docs
+ http://localhost:3000/swagger-ui/index.html
 
-Pré-requisitos
+Documented resources include:
 
-Java 17
-Maven Wrapper
+ - REST endpoints
+ - HTTP methods
+ - Path and query parameters
+ - Example requests and responses
+ - HTTP status codes
+
+OpenAPI JSON:
+
+ http://localhost:3000/v3/api-docs
+
+-------------------------------------------------------------------------------------
+
+⚙️ Configuration
+
+Prerequisites:
+
+ - Java 23 installed and configured in PATH
+ - Maven (or Maven Wrapper via mvnw) available
+
+Main configuration files:
+
+ - application.yml: base configuration
+ - application-dev.yml: development profile (H2 database)
+ - application-prod.yml: production-oriented settings
+
+Profiles can be selected via the spring.profiles.active property.
+
+-------------------------------------------------------------------------------------
+
+▶️ Running Locally
+
+Build the project:
+
+ mvn clean install
+
+Run the application (default dev profile):
+
+ mvn spring-boot:run
+
+After startup, the API and Swagger UI will be available on port 3000 (or the port
+configured in application*.yml).
+
+-------------------------------------------------------------------------------------
 
 🔄 CI & CD
-```text
-CI – Continuous Integration
-Executado automaticamente em:
-Push para main e develop
-Pull Requests
 
-Etapas:
-Build do projeto
-Execução de testes
-Análise de qualidade
-Geração do artefato
-CD – Continuous Delivery
-Deploy automatizado após aprovação
-Suporte a ambientes cloud
-Preparado para Docker e EC2
-```
+Continuous Integration (CI) via GitHub Actions (.github/workflows/ci.yml):
+
+ - Triggered on:
+   - Push to main and develop
+   - Pull Requests
+ - Steps:
+   - Project build
+   - Test execution
+   - (Optional) Quality analysis and artifact generation
+
+Continuous Delivery (CD) via GitHub Actions (.github/workflows/cd.yml):
+
+ - Automated deployment after CI success and approval
+ - Ready to integrate with cloud environments
+ - Prepared for container-based deployments (Docker, EC2, etc.)
+
+-------------------------------------------------------------------------------------
+
+✅ Quality Gates
+
+The pipeline is designed to support quality gates such as:
+
+ - All unit tests passing
+ - Successful project build
+ - (Optional) Static analysis and code coverage checks
+
+These checks help ensure that only healthy builds progress to deployment.
+
+-------------------------------------------------------------------------------------
+
+🗺 Roadmap
+
+Some possible next steps for evolution:
+
+ - Authentication and authorization (e.g., Spring Security, JWT)
+ - Product categories and inventory management
+ - Payment and invoice integration
+ - More advanced reporting and metrics
+ - Dockerization and full cloud deployment configuration
+
+-------------------------------------------------------------------------------------
+
+📜 License
+
+This project is open source.
+Check the LICENSE file in the repository root for detailed licensing information.
