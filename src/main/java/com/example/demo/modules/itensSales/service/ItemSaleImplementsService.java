@@ -46,10 +46,7 @@ public class ItemSaleImplementsService {
         ItemSale itemSale = itemSaleMapper.toModel(itemSaleRequestDto, sale);
         ItemSale itemSaleSaved = itemSaleRepository.save(itemSale);
 
-        if (idSale != null) {
-            saleImplementsService.recalculateTotalAmount(sale);
-            saleRepository.save(sale);
-        }
+        saleImplementsService.recalculateTotalAmount(sale);
         return itemSaleMapper.toResponse(itemSaleSaved);
     }
 
@@ -104,11 +101,11 @@ public class ItemSaleImplementsService {
 
         BigDecimal totalAmount = product.getPrice().multiply(BigDecimal.valueOf(itemSaleRequestDto.getQuantity()));
         itemSale.setTotalAmount(totalAmount);
-//        itemSale.setSale(sale);
 
         ItemSale itemSaleSaved = itemSaleRepository.save(itemSale);
 
         saleImplementsService.recalculateTotalAmount(sale);
+        saleRepository.save(sale);
 
         return itemSaleMapper.toResponse(itemSaleSaved);
     }
@@ -124,7 +121,8 @@ public class ItemSaleImplementsService {
         if (itemSale.getSale().getId() != sale.getId()) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "Error different idSale or idItemSale");
         }
-        saleImplementsService.recalculateTotalAmount(sale);
         itemSaleRepository.delete(itemSale);
+        saleImplementsService.recalculateTotalAmount(sale);
+
     }
 }
