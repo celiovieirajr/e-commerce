@@ -31,9 +31,9 @@ Main domains:
 Recommended for this project:
 
 - JVM & Framework: Java 17 (LTS) · Spring Boot 3.x
-- Build: Maven + wrapper (mvnw)
+- Build: Maven
 - Database (dev/homolog): H2 (in-memory)
-- Database (prod): MySQL 8.x / MariaDB
+- Database (prod): MySQL
 - Migrations: Liquibase (YAML changelogs)
 - Web client: Spring Web / WebFlux (WebClient when required)
 - Validation: Jakarta Validation (Bean Validation)
