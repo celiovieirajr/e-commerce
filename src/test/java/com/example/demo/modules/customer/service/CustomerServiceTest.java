@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -121,5 +122,26 @@ public class CustomerServiceTest {
         assertEquals(response.getName(), result.getName());
         assertEquals(response.getCpf(), result.getCpf());
         verify(customerRepository).findById(model.getId());
+    }
+
+    @Test
+    void findAllCustomer_success() {
+        CustomerRequestDto requestDto = createCustomerRequest();
+        Customer model = createCustomer(requestDto);
+        CustomerResponseDto response = createCustomerResponse(model);
+
+        when(customerRepository.findAll()).thenReturn(List.of(model));
+        when(customerMapper.toResponse(model)).thenReturn(response);
+
+        List<CustomerResponseDto> result = customerService.findAllCustomer();
+
+        assertEquals(1, result.size());
+        assertEquals(response.getCustomerId(), result.get(0).getCustomerId());
+        assertEquals(response.getName(), result.get(0).getName());
+        assertEquals(response.getCpf(), result.get(0).getCpf());
+        assertEquals(response.getAddres(), result.get(0).getAddres());
+
+        verify(customerRepository).findAll();
+        verify(customerMapper).toResponse(model);
     }
 }
