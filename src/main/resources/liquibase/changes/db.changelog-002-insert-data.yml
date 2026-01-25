@@ -58,10 +58,10 @@ databaseChangeLog:
                   valueNumeric: 1
               - column:
                   name: COD_PRODUCT
-                  value: "CHOC-B"
+                  value: "ITEM_1"
               - column:
                   name: description
-                  value: "CHOCOLATE BRANCO"
+                  value: "ITEM 1"
               - column:
                   name: price
                   valueNumeric: 9.99
@@ -73,10 +73,10 @@ databaseChangeLog:
                   valueNumeric: 2
               - column:
                   name: COD_PRODUCT
-                  value: "CHOC-P"
+                  value: "ITEM_2"
               - column:
                   name: description
-                  value: "CHOCOLATE PRETO"
+                  value: "ITEM 2"
               - column:
                   name: price
                   valueNumeric: 4.99
