@@ -1,227 +1,171 @@
-The E-Commerce Core API simulates the core of an online sales platform, covering
-real-world use cases such as:
-
- - Product management (create, update, list, delete)
- - Sales management
- - Sale item management
- - Customer management
- - ZIP code lookup via the VIACEP API
- - Continuous evolution with clean-code and architecture best practices
-
-The project is suitable for learning, portfolio, and as a foundation for larger
-systems.
-
--------------------------------------------------------------------------------------
-
-Summary
-
- - Stack & Versions (#-stack--versions)
- - Architecture (#-architecture)
- - System Domains (#-system-domains)
- - Project Structure (#-project-structure)
- - Swagger Documentation (#-swagger-documentation)
- - Configuration (#-configuration)
- - Running Locally (#-running-locally)
- - CI & CD (#-ci--cd)
- - Quality Gates (#-quality-gates)
- - Roadmap (#-roadmap)
- - License (#-license)
-
--------------------------------------------------------------------------------------
-
-🛠 Stack & Versions
-
-┌─────────────┬───────────────────┐
-│ Layer       │ Technology        │
-├─────────────┼───────────────────┤
-│ Language    │ Java 23           │
-├─────────────┼───────────────────┤
-│ Framework   │ Spring Boot 3.3.x │
-├─────────────┼───────────────────┤
-│ API         │ Spring Web (REST) │
-├─────────────┼───────────────────┤
-│ Persistence │ Spring Data JPA   │
-├─────────────┼───────────────────┤
-│ Database    │ H2 (homolog)      │
-├─────────────┼───────────────────┤
-│ Docs        │ Springdoc OpenAPI │
-├─────────────┼───────────────────┤
-│ Build       │ Maven             │
-├─────────────┼───────────────────┤
-│ CI/CD       │ GitHub Actions    │
-└─────────────┴───────────────────┘
-
--------------------------------------------------------------------------------------
-
-🏗 Architecture
+# E-Commerce Core API
 
- flowchart TD
-     Client[Client / Frontend] --> Controller[Controllers]
-     Controller --> Service[Services]
-     Service --> Repository[Repositories]
-     Repository --> Database[(Database)]
+Backend project that simulates the core of an online sales platform (REST API) with focus on architectural best practices, database migrations using Liquibase, and automated tests.
 
-     Controller --> Swagger[Swagger UI]
+Main domains:
+- Product management (CRUD)
+- Sales and sale items management
+- Customer management
+- Integration with the ViaCEP API (postal code lookup)
+- Continuous evolution with DB migrations (Liquibase)
 
-The architecture follows a layered approach (Controller → Service → Repository),
-aligned with clean architecture principles and REST best practices.
+---
 
--------------------------------------------------------------------------------------
+## Overview
 
-🧱 System Domains
+1. [Stack & Versions](#stack--versions)
+2. [High-Level Architecture](#high-level-architecture)
+3. [Folder Structure](#folder-structure)
+4. [Quick Start](#quick-start)
+5. [Configuration and Profiles (homolog / prod)](#configuration-and-profiles-homolog--prod)
+6. [Liquibase — Best Practices & Troubleshooting](#liquibase--best-practices--troubleshooting)
+7. [Testing & Quality](#testing--quality)
+8. [Continuous Integration (CI) / CD Plans](#continuous-integration-ci--cd-plans)
+9. [Roadmap (future)](#roadmap-future)
+10. [License](#license)
 
-Implemented CRUDs
+---
 
-┌──────────┬────────────────────────────────────┐
-│ Entity   │ Description                        │
-├──────────┼────────────────────────────────────┤
-│ Product  │ Products available for sale        │
-├──────────┼────────────────────────────────────┤
-│ Customer │ Customer data and basic profile    │
-├──────────┼────────────────────────────────────┤
-│ Sale     │ Placed orders (sales)              │
-├──────────┼────────────────────────────────────┤
-│ ItemSale │ Items that belong to a given order │
-└──────────┴────────────────────────────────────┘
+## Stack & Versions
 
-General Features
+Recommended for this project:
 
- - Full CRUD operations for the main entities
- - Validation using Bean Validation (Jakarta Validation)
- - Pagination and sorting for list endpoints
- - Global exception handling with standardized error responses
- - RESTful resource modeling and HTTP status codes
+- JVM & Framework: Java 17 (LTS) · Spring Boot 3.x
+- Build: Maven + wrapper (mvnw)
+- Database (dev/homolog): H2 (in-memory)
+- Database (prod): MySQL 8.x / MariaDB
+- Migrations: Liquibase (YAML changelogs)
+- Web client: Spring Web / WebFlux (WebClient when required)
+- Validation: Jakarta Validation (Bean Validation)
+- Lombok: optional to reduce boilerplate
+- Testing: JUnit 5, Mockito
 
--------------------------------------------------------------------------------------
+---
 
-📂 Project Structure
+## High-Level Architecture
 
- ecommerce-core/
- ├─ .github/
- │  └─ workflows/
- │     ├─ ci.yml
- │     └─ cd.yml
- ├─ src/main/java/com/example/ecommerce/
- │  ├─ controller/
- │  ├─ service/
- │  ├─ repository/
- │  ├─ model/
- │  ├─ dto/
- │  ├─ mapper/
- │  └─ config/
- ├─ src/main/resources/
- │  ├─ application.yml
- │  ├─ application-dev.yml
- │  └─ application-prod.yml
- ├─ src/test/java/
- ├─ pom.xml
- └─ README.md
+Monolithic API organized by domain modules: products, customers, sales, itemSales, viaceps.
+Responsibilities follow classic layers: controller → service → repository → entity.
+Liquibase handles schema creation at startup; JPA/Hibernate maps entities.
 
--------------------------------------------------------------------------------------
+---
 
-📑 Swagger Documentation
+## Folder Structure (summary)
 
-The API is documented using Swagger / OpenAPI via Springdoc.
+```
+src/
+  main/
+    java/com/example/demo/             # application & configs
+      modules/                          # domains: customers, products, sales...
+      config/                           # WebClient, beans, etc
+    resources/
+      application.yml                   # common configuration
+      application-homolog.yml           # H2 / homolog
+      application-prod.yml              # MySQL / production
+      liquibase/
+        db.changelog-homolog.yml        # homolog master changelog
+        db.changelog-prod.yml           # prod master changelog
+        changes/                         # changelog fragments per changeSet
+```
 
-Access:
+---
 
- http://localhost:3000/swagger-ui.html
+## Quick Start
 
-or
+Prerequisites: JDK 17+, Maven 3.9+
 
- http://localhost:3000/swagger-ui/index.html
+Run with homolog profile (H2):
 
-Documented resources include:
+```
+./mvnw spring-boot:run -Dspring-boot.run.profiles=homolog
+```
 
- - REST endpoints
- - HTTP methods
- - Path and query parameters
- - Example requests and responses
- - HTTP status codes
+Run with prod profile (MySQL) — configure credentials in application-prod.yml or via environment variables:
 
-OpenAPI JSON:
+```
+./mvnw spring-boot:run -Dspring-boot.run.profiles=prod
+```
 
- http://localhost:3000/v3/api-docs
+Run the jar with a profile:
 
--------------------------------------------------------------------------------------
+```
+java -jar -Dspring.profiles.active=homolog target/demo-0.0.1-SNAPSHOT.jar
+```
 
-⚙️ Configuration
+Access H2 Console (when homolog is active): http://localhost:3000/h2-console
+Default JDBC URL: jdbc:h2:mem:homolog-db
 
-Prerequisites:
+---
 
- - Java 23 installed and configured in PATH
- - Maven (or Maven Wrapper via mvnw) available
+## Configuration and Profiles (homolog / prod)
 
-Main configuration files:
+Best practices used in this project:
 
- - application.yml: base configuration
- - application-dev.yml: development profile (H2 database)
- - application-prod.yml: production-oriented settings
+- application.yml contains shared properties.
+- application-homolog.yml: configures H2, liquibase.change-log should point to `classpath:liquibase/db.changelog-homolog.yml` and must use `spring.config.activate.on-profile: homolog`.
+- application-prod.yml: configures MySQL; use environment variables for credentials and `spring.config.activate.on-profile: prod`.
+- Do not hardcode `spring.profiles.active` in production.
 
-Profiles can be selected via the spring.profiles.active property.
+Important example to avoid circular dependency between Liquibase and JPA:
 
--------------------------------------------------------------------------------------
+```
+spring:
+  jpa:
+    defer-datasource-initialization: true
+```
 
-▶️ Running Locally
+---
 
-Build the project:
+## Liquibase — Best Practices & Troubleshooting
 
- mvn clean install
+- Place all YAML changelogs under `src/main/resources/liquibase/` and use relative paths in includes.
+- Validate YAML formatting (indentation). YAML errors will prevent Liquibase from parsing.
+- Check the `DATABASECHANGELOG` table in the database to confirm execution.
+- Set `spring.jpa.defer-datasource-initialization: true` so Liquibase runs before the EntityManagerFactory is created.
+- Use `logging.level.liquibase=DEBUG` to troubleshoot which changelogs are being searched and loaded.
 
-Run the application (default dev profile):
+---
 
- mvn spring-boot:run
+## Testing & Quality
 
-After startup, the API and Swagger UI will be available on port 3000 (or the port
-configured in application*.yml).
+- Unit tests: JUnit 5 + Mockito. Use `ArgumentMatchers` (for example `anyString()`) when the exact argument is not relevant.
+- To avoid strict stubbing issues with Mockito, use `doReturn(...).when(...)` or `lenient()` where appropriate.
+- Integrate JaCoCo and Checkstyle into the CI pipeline.
 
--------------------------------------------------------------------------------------
+---
 
-🔄 CI & CD
+## Continuous Integration (CI) / CD Plans
 
-Continuous Integration (CI) via GitHub Actions (.github/workflows/ci.yml):
+CI pipeline example (GitHub Actions):
 
- - Triggered on:
-   - Push to main and develop
-   - Pull Requests
- - Steps:
-   - Project build
-   - Test execution
-   - (Optional) Quality analysis and artifact generation
+- Run on Java 17
+- Execute `mvn -B clean verify`
+- Publish artifact and run migrations in the pipeline before deploy (with a migration user)
 
-Continuous Delivery (CD) via GitHub Actions (.github/workflows/cd.yml):
+Future CD plans:
+- Build Docker image and automate deploy to homolog environment
+- Controlled production rollout (blue/green or canary)
 
- - Automated deployment after CI success and approval
- - Ready to integrate with cloud environments
- - Prepared for container-based deployments (Docker, EC2, etc.)
+---
 
--------------------------------------------------------------------------------------
+## Roadmap (future)
 
-✅ Quality Gates
+- Consolidate changelogs and controlled rollbacks
+- Metrics (Prometheus) + health checks
+- Full OpenAPI/Swagger documentation
+- Infrastructure-as-code for homolog/prod environments
 
-The pipeline is designed to support quality gates such as:
+---
 
- - All unit tests passing
- - Successful project build
- - (Optional) Static analysis and code coverage checks
+## License
 
-These checks help ensure that only healthy builds progress to deployment.
+MIT License — see LICENSE file
 
--------------------------------------------------------------------------------------
+---
 
-🗺 Roadmap
+If you want, I can:
+1) Update application-homolog.yml and application-prod.yml with ready examples.
+2) Validate Liquibase files in resources and fix includes (paths).
+3) Create a basic GitHub Actions CI workflow.
 
-Some possible next steps for evolution:
-
- - Authentication and authorization (e.g., Spring Security, JWT)
- - Product categories and inventory management
- - Payment and invoice integration
- - More advanced reporting and metrics
- - Dockerization and full cloud deployment configuration
-
--------------------------------------------------------------------------------------
-
-📜 License
-
-This project is open source.
-Check the LICENSE file in the repository root for detailed licensing information.
+Tell me which option you want me to perform next.
