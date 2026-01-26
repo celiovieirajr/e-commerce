@@ -31,56 +31,71 @@ class ProductImplementsServiceTest {
     @InjectMocks
     private ProductImplementsService service;
 
+    private ProductRequestDto createProductRequest() {
+        ProductRequestDto request = new ProductRequestDto();
+        request.setCodProduct("P001");
+        request.setDescription("Produto");
+        request.setPrice(new BigDecimal("10.00"));
+
+        return  request;
+    }
+
+    private Product createProdut(ProductRequestDto request) {
+        Product model = new Product();
+        model.setId(1L);
+        model.setCodProduct(request.getCodProduct());
+        model.setDescription(request.getDescription());
+        model.setPrice(request.getPrice());
+
+        return model;
+    }
+
+    private ProductResponseDto createProductResponse(Product model) {
+        ProductResponseDto response = new ProductResponseDto();
+        response.setId(model.getId());
+        response.setCodProduct(model.getCodProduct());
+        response.setDescription(model.getDescription());
+        response.setPrice(model.getPrice());
+
+        return response;
+    }
+
     @Test
     void insertProduct_success() {
-        ProductRequestDto req = new ProductRequestDto();
-        req.setCodProduct("P001");
-        req.setDescription("Produto");
-        req.setPrice(new BigDecimal("10.00"));
-
-        Product model = new Product();
-        model.setCodProduct(req.getCodProduct());
-        model.setDescription(req.getDescription());
-        model.setPrice(req.getPrice());
+        ProductRequestDto request = createProductRequest();
+        Product model = createProdut(request);
+        ProductResponseDto response = createProductResponse(model);
 
         Product saved = new Product();
         saved.setId(1L);
-        saved.setCodProduct(req.getCodProduct());
-        saved.setDescription(req.getDescription());
-        saved.setPrice(req.getPrice());
+        saved.setCodProduct(request.getCodProduct());
+        saved.setDescription(request.getDescription());
+        saved.setPrice(request.getPrice());
 
-        ProductResponseDto resp = new ProductResponseDto();
-        resp.setId(1L);
-        resp.setCodProduct(req.getCodProduct());
-        resp.setDescription(req.getDescription());
-        resp.setPrice(req.getPrice());
 
-        when(mapper.toModel(req)).thenReturn(model);
+        when(mapper.toModel(request)).thenReturn(model);
         when(repository.existsByCodProductAndIdNot(model.getCodProduct(), model.getId())).thenReturn(false);
         when(repository.save(model)).thenReturn(saved);
-        when(mapper.toResponse(saved)).thenReturn(resp);
+        when(mapper.toResponse(saved)).thenReturn(response);
 
-        ProductResponseDto result = service.insertProduct(req);
+        ProductResponseDto result = service.insertProduct(request);
 
         assertNotNull(result);
-        assertEquals(resp.getId(), result.getId());
+        assertEquals(response.getId(), result.getId());
         verify(repository).save(model);
     }
 
     @Test
     void insertProduct_conflict() {
-        ProductRequestDto req = new ProductRequestDto();
-        req.setCodProduct("P001");
-        req.setDescription("Produto");
-        req.setPrice(new BigDecimal("10.00"));
+        ProductRequestDto request = createProductRequest();
 
         Product model = new Product();
-        model.setCodProduct(req.getCodProduct());
+        model.setCodProduct(request.getCodProduct());
 
-        when(mapper.toModel(req)).thenReturn(model);
+        when(mapper.toModel(request)).thenReturn(model);
         when(repository.existsByCodProductAndIdNot(model.getCodProduct(), model.getId())).thenReturn(true);
 
-        ApiException ex = assertThrows(ApiException.class, () -> service.insertProduct(req));
+        ApiException ex = assertThrows(ApiException.class, () -> service.insertProduct(request));
         assertTrue(ex.getMessage().contains("Product code already exists") || ex.getStatus().value() == 409);
         verify(repository, never()).save(any());
     }
@@ -95,25 +110,17 @@ class ProductImplementsServiceTest {
 
     @Test
     void findAllProduct_returnsList() {
-        Product p = new Product();
-        p.setId(1L);
-        p.setCodProduct("P001");
-        p.setDescription("Produto");
-        p.setPrice(new BigDecimal("5.00"));
+        ProductRequestDto request = createProductRequest();
+        Product model = createProdut(request);
+        ProductResponseDto response = createProductResponse(model);
 
-        ProductResponseDto dto = new ProductResponseDto();
-        dto.setId(1L);
-        dto.setCodProduct(p.getCodProduct());
-        dto.setDescription(p.getDescription());
-        dto.setPrice(p.getPrice());
-
-        when(repository.findAll()).thenReturn(List.of(p));
-        when(mapper.toResponse(p)).thenReturn(dto);
+        when(repository.findAll()).thenReturn(List.of(model));
+        when(mapper.toResponse(model)).thenReturn(response);
 
         List<ProductResponseDto> all = service.findAllProduct();
 
         assertEquals(1, all.size());
-        assertEquals(dto.getId(), all.get(0).getId());
+        assertEquals(response.getId(), all.get(0).getId());
     }
 
     @Test
@@ -129,37 +136,24 @@ class ProductImplementsServiceTest {
 
     @Test
     void updateProduct_success() {
-        ProductRequestDto req = new ProductRequestDto();
-        req.setCodProduct("P002");
-        req.setDescription("Novo");
-        req.setPrice(new BigDecimal("20.00"));
-
-        Product existing = new Product();
-        existing.setId(3L);
-        existing.setCodProduct("OLD");
-        existing.setDescription("Velho");
-        existing.setPrice(new BigDecimal("1.00"));
+        ProductRequestDto request = createProductRequest();
+        Product model = createProdut(request);
+        ProductResponseDto response = createProductResponse(model);
 
         Product saved = new Product();
         saved.setId(3L);
-        saved.setCodProduct(req.getCodProduct());
-        saved.setDescription(req.getDescription());
-        saved.setPrice(req.getPrice());
+        saved.setCodProduct(request.getCodProduct());
+        saved.setDescription(request.getDescription());
+        saved.setPrice(request.getPrice());
 
-        ProductResponseDto dto = new ProductResponseDto();
-        dto.setId(3L);
-        dto.setCodProduct(req.getCodProduct());
-        dto.setDescription(req.getDescription());
-        dto.setPrice(req.getPrice());
+        when(repository.findById(3L)).thenReturn(Optional.of(model));
+        when(repository.save(model)).thenReturn(saved);
+        when(mapper.toResponse(saved)).thenReturn(response);
 
-        when(repository.findById(3L)).thenReturn(Optional.of(existing));
-        when(repository.save(existing)).thenReturn(saved);
-        when(mapper.toResponse(saved)).thenReturn(dto);
+        ProductResponseDto result = service.updateProduct(3L, request);
 
-        ProductResponseDto result = service.updateProduct(3L, req);
-
-        assertEquals(dto.getId(), result.getId());
-        assertEquals(req.getCodProduct(), result.getCodProduct());
+        assertEquals(response.getId(), result.getId());
+        assertEquals(request.getCodProduct(), result.getCodProduct());
     }
 }
 
