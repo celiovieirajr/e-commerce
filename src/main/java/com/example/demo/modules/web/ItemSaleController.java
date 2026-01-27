@@ -2,6 +2,7 @@ package com.example.demo.modules.web;
 
 import com.example.demo.modules.dto.ItemSaleRequestDto;
 import com.example.demo.modules.dto.ItemSaleResponseDto;
+import com.example.demo.modules.service.ItemSaleImplementsService;
 import com.example.demo.modules.service.SaleImplementsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +13,9 @@ import java.util.List;
 @RestController @RequestMapping("/sale/{saleId}/itemSales/")
 public class ItemSaleController {
 
-    private final SaleImplementsService.ItemSaleImplementsService itemSaleImplementsService;
+    private final ItemSaleImplementsService itemSaleImplementsService;
 
-    public ItemSaleController(SaleImplementsService.ItemSaleImplementsService itemSaleImplementsService) {
+    public ItemSaleController(ItemSaleImplementsService itemSaleImplementsService) {
         this.itemSaleImplementsService = itemSaleImplementsService;
     }
 
