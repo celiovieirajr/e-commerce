@@ -1,12 +1,12 @@
 package com.example.demo.modules.customer.service;
 
-import com.example.demo.modules.customers.dto.CustomerRequestDto;
-import com.example.demo.modules.customers.dto.CustomerResponseDto;
-import com.example.demo.modules.customers.mapper.CustomerMapper;
-import com.example.demo.modules.customers.model.Customer;
-import com.example.demo.modules.customers.repository.CustomerRepository;
-import com.example.demo.modules.customers.service.CustomerImplementsService;
-import com.example.demo.modules.viaceps.model.Viacep;
+import com.example.demo.modules.dto.CustomerRequestDto;
+import com.example.demo.modules.dto.CustomerResponseDto;
+import com.example.demo.modules.mapper.CustomerMapper;
+import com.example.demo.modules.domain.Customer;
+import com.example.demo.modules.repository.CustomerRepository;
+import com.example.demo.modules.service.CustomerImplementsService;
+import com.example.demo.modules.domain.Viacep;
 import com.example.demo.utils.CpfUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +19,6 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
 public class CustomerServiceTest {
