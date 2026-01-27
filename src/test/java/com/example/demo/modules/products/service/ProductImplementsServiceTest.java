@@ -1,11 +1,12 @@
 package com.example.demo.modules.products.service;
 
 import com.example.demo.exception.ApiException;
-import com.example.demo.modules.products.dto.ProductRequestDto;
-import com.example.demo.modules.products.dto.ProductResponseDto;
-import com.example.demo.modules.products.mapper.ProductMapper;
-import com.example.demo.modules.products.model.Product;
-import com.example.demo.modules.products.repository.ProductRepository;
+import com.example.demo.modules.dto.ProductRequestDto;
+import com.example.demo.modules.dto.ProductResponseDto;
+import com.example.demo.modules.mapper.ProductMapper;
+import com.example.demo.modules.domain.Product;
+import com.example.demo.modules.repository.ProductRepository;
+import com.example.demo.modules.service.ProductImplementsService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
