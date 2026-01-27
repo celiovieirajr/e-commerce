@@ -1,6 +1,5 @@
-package com.example.demo.modules.products.model;
+package com.example.demo.modules.domain;
 
-import com.example.demo.modules.domain.Product;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

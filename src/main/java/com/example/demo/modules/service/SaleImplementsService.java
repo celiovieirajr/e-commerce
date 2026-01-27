@@ -2,9 +2,6 @@ package com.example.demo.modules.service;
 
 import com.example.demo.exception.ApiException;
 import com.example.demo.modules.domain.Customer;
-import com.example.demo.modules.dto.ItemSaleRequestDto;
-import com.example.demo.modules.dto.ItemSaleResponseDto;
-import com.example.demo.modules.mapper.ItemSaleMapper;
 import com.example.demo.modules.repository.CustomerRepository;
 import com.example.demo.modules.domain.ItemSale;
 import com.example.demo.modules.repository.ItemSaleRepository;
@@ -120,15 +117,5 @@ public class SaleImplementsService implements ISaleService{
 
         return sale;
     }
-
-    public static interface IItemSaleService {
-
-        ItemSaleResponseDto insertItemSaleService(ItemSaleRequestDto itemSaleRequestDto, Long idProduct);
-        ItemSaleResponseDto findItemSaleById(Long id);
-        List<ItemSaleResponseDto> findAllItemSale();
-        ItemSaleResponseDto updateItemSaleById(Long id, ItemSaleRequestDto itemSaleRequestDto);
-        void deleteItemSaleById(Long id);
-    }
-
 
 }
