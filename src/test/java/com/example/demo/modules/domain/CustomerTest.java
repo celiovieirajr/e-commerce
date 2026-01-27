@@ -1,7 +1,5 @@
-package com.example.demo.modules.customer.model;
+package com.example.demo.modules.domain;
 
-import com.example.demo.modules.domain.Customer;
-import com.example.demo.modules.domain.Viacep;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -43,9 +41,4 @@ class CustomerTest {
 		assertEquals("Sudoeste", customer.getAddres().getRegiao());
 		assertEquals("77789", customer.getAddres().getIbge());
 	}
-
-
-
-
-
 }

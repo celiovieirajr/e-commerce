@@ -1,11 +1,10 @@
-package com.example.demo.modules.customer.service;
+package com.example.demo.modules.service;
 
 import com.example.demo.modules.dto.CustomerRequestDto;
 import com.example.demo.modules.dto.CustomerResponseDto;
 import com.example.demo.modules.mapper.CustomerMapper;
 import com.example.demo.modules.domain.Customer;
 import com.example.demo.modules.repository.CustomerRepository;
-import com.example.demo.modules.service.CustomerImplementsService;
 import com.example.demo.modules.domain.Viacep;
 import com.example.demo.utils.CpfUtils;
 import org.junit.jupiter.api.Test;
