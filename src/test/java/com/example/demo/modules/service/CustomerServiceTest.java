@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 public class CustomerServiceTest {
 
-    @Mock // objetos "falsos"
+    @Mock
     private CustomerRepository customerRepository;
 
     @Mock

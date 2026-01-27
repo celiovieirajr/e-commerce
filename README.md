@@ -30,7 +30,7 @@ Main domains:
 
 Recommended for this project:
 
-- JVM & Framework: Java 23 (LTS) · Spring Boot 3.x
+- JVM & Framework: Java 23 (LTS) · Spring Boot 4.0.2
 - Build: Maven
 - Database (dev/homolog): H2 (in-memory)
 - Database (prod): MySQL
