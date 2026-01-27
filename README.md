@@ -30,7 +30,7 @@ Main domains:
 
 Recommended for this project:
 
-- JVM & Framework: Java 17 (LTS) · Spring Boot 3.x
+- JVM & Framework: Java 23 (LTS) · Spring Boot 3.x
 - Build: Maven
 - Database (dev/homolog): H2 (in-memory)
 - Database (prod): MySQL
@@ -72,7 +72,7 @@ src/
 
 ## Quick Start
 
-Prerequisites: JDK 17+, Maven 3.9+
+Prerequisites: JDK 23+, Maven 3.9+
 
 Run with homolog profile (H2):
 
@@ -138,7 +138,7 @@ spring:
 
 CI pipeline example (GitHub Actions):
 
-- Run on Java 17
+- Run on Java 23
 - Execute `mvn -B clean verify`
 - Publish artifact and run migrations in the pipeline before deploy (with a migration user)
 
