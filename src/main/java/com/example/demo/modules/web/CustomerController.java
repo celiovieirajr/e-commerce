@@ -4,13 +4,15 @@ import com.example.demo.modules.dto.CustomerRequestDto;
 import com.example.demo.modules.dto.CustomerResponseDto;
 import com.example.demo.modules.service.CustomerImplementsService;
 import com.example.demo.modules.service.ICustomerService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController @RequestMapping("/customers")
+@RestController @RequestMapping("api/v1/customers/")
+@Tag(name = "Customer", description = "Endpoints for manage Customer")
 public class CustomerController {
 
     public ICustomerService customerService;

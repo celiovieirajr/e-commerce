@@ -14,11 +14,11 @@ public class OpeApiConfig {
     OpenAPI customOpenApi() {
         return new OpenAPI()
             .info(new Info()
-                .title("REST API's RESTful from 0 with Java, Spring boot and Docker")
-                .version("v1")
+                .title("REST APIs E-COMMERCE")
+                .version("v1.0.0")
                 .description("REST API's RESTful from 0 with Java, Spring boot and Docker")
                 .license(new License()
                         .name("Apache 2.0")
-                        .url("https://swagger")));
+                        .url("https://swagger-ui/index.html")));
 }
 }

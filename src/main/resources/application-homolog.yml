@@ -29,3 +29,8 @@ logging:
     org.hibernate.orm.jdbc.error: ERROR
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql: TRACE
+
+spring-doc:
+  paths-to-match: /api/**/v1/**
+#  swagger-ui:
+#    use-root-path: true
