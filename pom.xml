@@ -17,6 +17,7 @@
 				<db.username>sa</db.username>
 				<db.password></db.password>
 				<db.driver>org.h2.Driver</db.driver>
+		<springdoc.version>3.0.1</springdoc.version>
 	</properties>
 
 	<groupId>com.example</groupId>
@@ -100,6 +101,17 @@
 			<version>4.0.1</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+			<version>${springdoc.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>${springdoc.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -139,7 +151,7 @@
 					<password>${db.password}</password>
 					<driver>${db.driver}</driver>
 					<!-- opcional: classpath do projeto para localizar changelogs -->
-					<classpathPrefix>${project.build.outputDirectory}</classpathPrefix>
+<!--					<classpathPrefix>${project.build.outputDirectory}</classpathPrefix>-->
 				</configuration>
 			</plugin>
 		</plugins>
