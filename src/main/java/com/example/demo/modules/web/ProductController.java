@@ -4,6 +4,7 @@ import com.example.demo.modules.dto.ProductRequestDto;
 import com.example.demo.modules.dto.ProductResponseDto;
 import com.example.demo.modules.service.IProductService;
 import com.example.demo.modules.service.ProductImplementsService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("api/v1/products/")
+@Tag(name = "Product", description = "Endpoints for manage Product")
 public class ProductController {
 
     private final IProductService service;

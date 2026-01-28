@@ -4,13 +4,16 @@ import com.example.demo.modules.dto.ItemSaleRequestDto;
 import com.example.demo.modules.dto.ItemSaleResponseDto;
 import com.example.demo.modules.service.ItemSaleImplementsService;
 import com.example.demo.modules.service.SaleImplementsService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController @RequestMapping("/sale/{saleId}/itemSales/")
+@RestController
+@RequestMapping("/api/v1/sale/{saleId}/itemSales/")
+@Tag(name = "ItemSale", description = "Endpoints for manage ItemSale")
 public class ItemSaleController {
 
     private final ItemSaleImplementsService itemSaleImplementsService;
