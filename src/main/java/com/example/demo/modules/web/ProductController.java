@@ -82,7 +82,7 @@ public class ProductController {
                             responseCode = "200",
                             content = @Content(
                                     mediaType = MediaType.ALL_VALUE,
-                                    array = @ArraySchema(schema = @Schema(implementation = ProductRequestDto.class))
+                                    array = @ArraySchema(schema = @Schema(implementation = ProductResponseDto.class))
                             )
                     ),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
