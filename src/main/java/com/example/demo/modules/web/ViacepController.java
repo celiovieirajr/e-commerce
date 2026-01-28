@@ -34,7 +34,7 @@ public class ViacepController {
                             description = "Sucsess",
                             responseCode = "200",
                             content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    mediaType = MediaType.ALL_VALUE,
                                     array = @ArraySchema(schema = @Schema(implementation = Viacep.class))
                             )
                     ),
