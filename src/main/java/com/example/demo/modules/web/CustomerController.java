@@ -28,7 +28,7 @@ public class CustomerController {
         this.customerService = customerImplementsService;
     }
 
-    @PostMapping
+
     @Operation(summary = "Insert Customer", description = "Insert Customer",
             tags = "Customer",
             responses = {
@@ -45,12 +45,14 @@ public class CustomerController {
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
             })
+    @PostMapping
     public ResponseEntity<CustomerResponseDto> insertCustomerController(@Valid @RequestBody CustomerRequestDto requestDto) {
         CustomerResponseDto model = customerService.insertCustomer(requestDto);
         return ResponseEntity.ok().body(model);
     }
 
-    @PutMapping("/{id}")
+
+
     @Operation(summary = "Updated Product by ID", description = "Updated Product by ID",
             tags = "Product",
             responses = {
@@ -66,13 +68,15 @@ public class CustomerController {
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
             })
+    @PutMapping("/{id}")
     public ResponseEntity<CustomerResponseDto> updatedCustomerController(@Valid @PathVariable Long id,
                                                                          @RequestBody CustomerRequestDto requestDto) {
         CustomerResponseDto responseDto = customerService.updatedCustomer(id, requestDto);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{id}")
+
+
     @Operation(summary = "Find Product by ID", description = "Find Product by ID",
             tags = "Product",
             responses = {
@@ -88,11 +92,13 @@ public class CustomerController {
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
             })
+    @GetMapping("/{id}")
     public ResponseEntity<CustomerResponseDto> findCustomerByIdController(@Valid @PathVariable Long id) {
         return ResponseEntity.ok(customerService.findCustomerById(id));
     }
 
-    @GetMapping
+
+
     @Operation(summary = "Find All Products by ID", description = "Find All Products by ID",
             tags = "Product",
             responses = {
@@ -108,11 +114,13 @@ public class CustomerController {
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
             })
+    @GetMapping
     public ResponseEntity<List<CustomerResponseDto>> findAllCustomerController() {
         return ResponseEntity.ok(customerService.findAllCustomer());
     }
 
-    @DeleteMapping("/{id}")
+
+
     @Operation(summary = "Deleted Product by ID", description = "Deleted Product by ID",
             tags = "Product",
             responses = {
@@ -122,6 +130,7 @@ public class CustomerController {
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
             })
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCustomerByIdController(@PathVariable Long id) {
         customerService.deleteCustomerById(id);
         return ResponseEntity.noContent().build();
