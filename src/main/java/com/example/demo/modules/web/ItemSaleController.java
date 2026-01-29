@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/sale/{saleId}/itemSales/")
-@Tag(name = "ItemSale", description = "Endpoints for manage ItemSale")
+@Tag(name = "ItemSale", description = "Endpoints for manage itemSale")
 public class ItemSaleController {
 
     private final ItemSaleImplementsService itemSaleImplementsService;

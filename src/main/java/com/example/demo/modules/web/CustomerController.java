@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController @RequestMapping("api/v1/customers/")
-@Tag(name = "Customer", description = "Endpoints for manage Customer")
+@Tag(name = "Customer", description = "Endpoints for manage CUSTOMER")
 public class CustomerController {
 
     private final ICustomerService customerService;
@@ -29,7 +29,7 @@ public class CustomerController {
     }
 
 
-    @Operation(summary = "Insert Customer", description = "Insert Customer",
+    @Operation(summary = "Insert CUSTOMER", description = "Insert CUSTOMER",
             tags = "Customer",
             responses = {
                     @ApiResponse(
@@ -53,8 +53,8 @@ public class CustomerController {
 
 
 
-    @Operation(summary = "Updated Product by ID", description = "Updated Product by ID",
-            tags = "Product",
+    @Operation(summary = "Updated CUSTOMER by ID", description = "Updated CUSTOMER by ID",
+            tags = "Customer",
             responses = {
                     @ApiResponse(
                             description = "Success",
@@ -77,8 +77,8 @@ public class CustomerController {
 
 
 
-    @Operation(summary = "Find Product by ID", description = "Find Product by ID",
-            tags = "Product",
+    @Operation(summary = "Find CUSTOMER by ID", description = "Find CUSTOMER by ID",
+            tags = "Customer",
             responses = {
                     @ApiResponse(
                             description = "Success",
@@ -99,8 +99,8 @@ public class CustomerController {
 
 
 
-    @Operation(summary = "Find All Products by ID", description = "Find All Products by ID",
-            tags = "Product",
+    @Operation(summary = "Find all CUSTOMERS", description = "Find all CUSTOMERS",
+            tags = "Customer",
             responses = {
                     @ApiResponse(
                             description = "Success",
@@ -121,8 +121,8 @@ public class CustomerController {
 
 
 
-    @Operation(summary = "Deleted Product by ID", description = "Deleted Product by ID",
-            tags = "Product",
+    @Operation(summary = "Delete CUSTOMER by ID", description = "Delete CUSTOMER by ID",
+            tags = "Customer",
             responses = {
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content(mediaType = MediaType.ALL_VALUE,
                                                                                                       array = @ArraySchema(schema = @Schema(implementation = ProductRequestDto.class)))),
