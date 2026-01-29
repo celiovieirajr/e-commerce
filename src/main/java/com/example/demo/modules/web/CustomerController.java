@@ -35,11 +35,7 @@ public class CustomerController {
                     @ApiResponse(
                             description = "Created",
                             responseCode = "201",
-                            content = @Content(
-                                    mediaType = MediaType.ALL_VALUE,
-                                    array = @ArraySchema(schema = @Schema(implementation = CustomerRequestDto.class))
-                            )
-                    ),
+                            content = @Content(schema = @Schema(implementation = CustomerRequestDto.class))),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
@@ -59,11 +55,7 @@ public class CustomerController {
                     @ApiResponse(
                             description = "Success",
                             responseCode = "200",
-                            content = @Content(
-                                    mediaType = MediaType.ALL_VALUE,
-                                    array = @ArraySchema(schema = @Schema(implementation = ProductRequestDto.class))
-                            )
-                    ),
+                            content = @Content(schema = @Schema(implementation = ProductRequestDto.class))),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
@@ -83,11 +75,7 @@ public class CustomerController {
                     @ApiResponse(
                             description = "Success",
                             responseCode = "200",
-                            content = @Content(
-                                    mediaType = MediaType.ALL_VALUE,
-                                    array = @ArraySchema(schema = @Schema(implementation = ProductRequestDto.class))
-                            )
-                    ),
+                            content = @Content(schema = @Schema(implementation = ProductRequestDto.class))),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
@@ -124,8 +112,7 @@ public class CustomerController {
     @Operation(summary = "Delete CUSTOMER by ID", description = "Delete CUSTOMER by ID",
             tags = "Customer",
             responses = {
-                    @ApiResponse(description = "No Content", responseCode = "204", content = @Content(mediaType = MediaType.ALL_VALUE,
-                                                                                                      array = @ArraySchema(schema = @Schema(implementation = ProductRequestDto.class)))),
+                    @ApiResponse(description = "No Content", responseCode = "204", content = @Content(schema = @Schema(implementation = ProductRequestDto.class))),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),

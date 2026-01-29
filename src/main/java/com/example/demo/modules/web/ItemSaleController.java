@@ -36,11 +36,7 @@ public class ItemSaleController {
                     @ApiResponse(
                             description = "Created",
                             responseCode = "201",
-                            content = @Content(
-                                    mediaType = MediaType.ALL_VALUE,
-                                    array = @ArraySchema(schema = @Schema(implementation = ItemSaleRequestDto.class))
-                            )
-                    ),
+                            content = @Content(schema = @Schema(implementation = ItemSaleRequestDto.class))),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
@@ -61,11 +57,7 @@ public class ItemSaleController {
                     @ApiResponse(
                             description = "Created",
                             responseCode = "201",
-                            content = @Content(
-                                    mediaType = MediaType.ALL_VALUE,
-                                    array = @ArraySchema(schema = @Schema(implementation = ItemSaleRequestDto.class))
-                            )
-                    ),
+                            content = @Content(schema = @Schema(implementation = ItemSaleRequestDto.class))),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
@@ -107,11 +99,7 @@ public class ItemSaleController {
                     @ApiResponse(
                             description = "Success",
                             responseCode = "200",
-                            content = @Content(
-                                    mediaType = MediaType.ALL_VALUE,
-                                    array = @ArraySchema(schema = @Schema(implementation = ItemSaleRequestDto.class))
-                            )
-                    ),
+                            content = @Content(schema = @Schema(implementation = ItemSaleRequestDto.class))),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),

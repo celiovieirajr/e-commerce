@@ -37,11 +37,7 @@ public class ProductController {
                     @ApiResponse(
                             description = "Created",
                             responseCode = "201",
-                            content = @Content(
-                                    mediaType = MediaType.ALL_VALUE,
-                                    array = @ArraySchema(schema = @Schema(implementation = ProductRequestDto.class))
-                            )
-                    ),
+                            content = @Content(schema = @Schema(implementation = ProductRequestDto.class))),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
@@ -58,11 +54,7 @@ public class ProductController {
                     @ApiResponse(
                             description = "Success",
                             responseCode = "200",
-                            content = @Content(
-                                    mediaType = MediaType.ALL_VALUE,
-                                    array = @ArraySchema(schema = @Schema(implementation = ProductRequestDto.class))
-                            )
-                    ),
+                            content = @Content(schema = @Schema(implementation = ProductRequestDto.class))),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
@@ -80,11 +72,7 @@ public class ProductController {
                     @ApiResponse(
                             description = "Success",
                             responseCode = "200",
-                            content = @Content(
-                                    mediaType = MediaType.ALL_VALUE,
-                                    array = @ArraySchema(schema = @Schema(implementation = ProductResponseDto.class))
-                            )
-                    ),
+                            content = @Content(schema = @Schema(implementation = ProductResponseDto.class))),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
