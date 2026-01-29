@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController @RequestMapping("api/v1/address/")
-@Tag(name = "Address", description = "Endpoints for manage Address")
+@Tag(name = "Address", description = "Endpoint for manage ADDRESS")
 public class ViacepController {
 
     private final ViacepService viacepService;
@@ -27,8 +27,8 @@ public class ViacepController {
     }
 
     @GetMapping("/{cep}")
-    @Operation(summary = "Find Address by cep", description = "Find Address by cep",
-               tags = "Addres",
+    @Operation(summary = "Find address by CEP", description = "Find address by CEP",
+               tags = "Address",
                responses = {
                     @ApiResponse(
                             description = "Sucsess",
